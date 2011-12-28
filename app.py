@@ -13,7 +13,7 @@ def add_numbers():
     return jsonify(result=a+b)
 @app.route('/')
 def index():
-    return render_template('popup1.html')
+    return render_template('popup.html')
     
 if __name__=="__main__":
     app.run(debug=True);
