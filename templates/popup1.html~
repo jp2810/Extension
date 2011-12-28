@@ -1,0 +1,30 @@
+<!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.js"></script>-->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js">
+</script>
+<script type=text/javascript>
+  window.addEventListener("load", windowLoaded, false);
+  function windowLoaded() {
+  chrome.tabs.getSelected(null, function(tab) {
+  document.getElementById('url').innerHTML = tab.url;
+  });
+  }
+</script>
+<script type=text/javascript>
+  $(function() {
+  $('a#calculate').bind('click', function() {
+  $.getJSON('http://127.0.0.1:5000/_add_numbers', {
+  a: $('input[name="a"]').val(),
+  b: $('input[name="b"]').val()
+  }, function(data) {
+  $("#result").text(data.result);
+  });
+  return false;
+  });
+  });
+</script>
+<h1>jQuery Example</h1>
+<p id='url'>show url</p>
+<p><input type=text size=5 name=a> +
+   <input type=text size=5 name=b> =
+   <span id=result>?</span>
+<p><a href=# id=calculate>calculate server side</a>
