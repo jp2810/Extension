@@ -1,0 +1,22 @@
+<!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.js"></script>-->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js">
+</script>
+<script type=text/javascript>
+  $(function() {
+  $('a#calculate').bind('click', function() {
+  $.getJSON('http://127.0.0.1:5000/_add_numbers', {
+  a: $('input[name="a"]').val()
+  }, function(data) {
+ $("#result").text(data.result[0]);
+   $("#res").text(data.result[1]);
+  });
+return false;
+  });
+  });
+</script>
+<h1>jQuery Example</h1>
+<p><input type=text size=5 name=a> +
+   <input type=text size=5 name=b> =
+   <span id=result>?</span>
+   <span id=res>?</span>
+<p><a href=# id=calculate>calculate server side</a>

@@ -1,0 +1,26 @@
+<html>
+	<head>
+		<script type="text/javascript">
+			function use_of_ajax()
+			{
+				//alert("function called");
+				xmlhttp=new XMLHttpRequest();
+				xmlhttp.open("get","/",true);
+				xmlhttp.send(null);
+				xmlhttp.onreadystatechnge=function()
+				{
+					if(xmlhttp.readystate=4 && xmlhttp.status=200)
+					{
+						document.getElementById("name").innerHTML=xmlhttp.ResponseText;
+					}
+				}
+			}
+		</script>
+	</head>
+	<body>
+		<div id=""name>
+			<h2>this text will change</h2>
+		</div>
+		<button type="button" onclick="use_of_ajax()">change content</button>
+	</body>
+</html>
