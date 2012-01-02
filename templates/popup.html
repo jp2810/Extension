@@ -12,14 +12,13 @@
 <script type=text/javascript>
   $(function() {
   $('a#calculate').bind('click', function() {
-
   $.getJSON('http://127.0.0.1:5000/tokenize', {
   url: $('input[name="url"]').val()
    }, function(data) {
-  $.each(data.result,function(i,val){
+    $.each(data.result,function(i,val){
   $("#display").append(i+"=>"+val+"<br/>");
   });
-  
+  $("#result").text(data.result[0]);
   });
   return false;
   });
@@ -31,4 +30,4 @@
   <input type=text size=5 name=url> 
   <p><a href=# id=calculate>calculate server side</a>
   <span id=result>?</span>
-  <div id="display"></div>
+<div id="display"></div>
