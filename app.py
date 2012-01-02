@@ -1,16 +1,21 @@
-from flask import Flask, jsonify, render_template, request
+from flask import Flask, jsonify, render_template, request,json
 import pdb
 app = Flask(__name__)
 
 @app.route('/_add_numbers')
 def add_numbers():
     a = request.args.get('a', 0, type=int)
-    b = request.args.get('b', 0, type=int)
-    c = request.args.get('c', 0, type=str)
     
     print "hello";
-    print c;
-    return jsonify(result=a+b)
+    b=[1,2,3]
+    c=["jayesh","pawar"]
+    txt='{"result" : '
+    txt += json.dumps(c)
+    txt += "}"
+    print txt
+    return txt
+   #return '{"result":["jayesh","pawar"]}' ...working
+
 @app.route('/')
 def index():
     return render_template('popup.html')

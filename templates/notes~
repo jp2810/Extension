@@ -1,0 +1,1 @@
+One use of JavaScript's eval is to parse JSON text, perhaps as part of an Ajax framework. However, modern browsers provide JSON.parse as a more secure alternative for this task.
