@@ -99,24 +99,30 @@ def search_bing():
     #for kw in keywords:
     kw="hunting"
     res = bing.do_web_search(kw)
-    print "\n\nKEYWORD=%s" %(kw)
-    print res["SearchResponse"]["Web"]["Results"]
-    print "\n\n\nTitle  :"
+    #print "\n\nKEYWORD=%s" %(kw)
+    #print res["SearchResponse"]["Web"]["Results"]
+    #print "\n\n\nTitle  :"
     #print res["SearchResponse"]["Web"]["Results"]["Title"]
     #for i in  res["SearchResponse"]["Web"]["Results"]:
      #   print i["Title"]
       #  #print i["Description"]
        # print i["Url"]
         #print "\n---------------------------------"
-
     txt1 = json.dumps(res["SearchResponse"]["Web"]["Results"])
-    #c=["jayesh","pawar"]
-    #txt='{"result" : '
-    #xt += json.dumps(c)
-    #txt += "}"
-    print txt1
-    return txt1
-    
+    #print txt1
+    #return txt
+    kw1 = ["mk gandhi","hitler"]
+    txt2 = "{"
+    for k in kw1:
+        txt2 += "\"" + k + "\""
+        res = bing.do_web_search(k)
+        txt2 += ":"
+        txt2 += json.dumps(res["SearchResponse"]["Web"]["Results"])
+        txt2 +=","
+    txt2 += '"tt":"result"'
+    txt2 += "}"
+    print "\n\\n\n\n\ntxt2 :"+txt2
+    return txt2
 
 def traverse(t):
     global chunk_count

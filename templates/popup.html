@@ -28,7 +28,7 @@
   url: $('input[name="url"]').val()
   },
   function(data) {
-    $.each(data,function(i,val){
+    //$.each(data,function(i,val){
   $("#search_result_id").append(i+"=>"+val.Url+"<br/>");
   });
   });
