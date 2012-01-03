@@ -12,6 +12,7 @@ app = Flask(__name__)
 STOPWORDS = ["The", "the", "or"]
 chunk_count = 0
 npchunks = []
+keywords = []
 
 @app.route('/_add_numbers')
 def add_numbers():
@@ -29,8 +30,6 @@ def index():
 
 @app.route('/tokenize',methods=['GET','POST'])
 def tokenize():
-
-    keywords = []
     count = 0	 
     adr = request.args.get('url', 0, type=str)
     webpage = urllib2.urlopen(adr).read()
@@ -77,24 +76,47 @@ def tokenize():
         if((chunk_position < (len_text/1.5)) and (fd1[ch] >= (fd1[most_freq]/3))) : 
             keywords.append(ch)
             count += 1
- 
-    #keywords = set(keywords)
    
-    for kw in keywords:
-        print "%s" %(kw)
-    ss = ["jayesh","mandar"]
+    #for kw in keywords:
+     #   print "%s" %(kw)
+        
     txt= '{"result":'
     txt += json.dumps(keywords)
     txt += "}"
-    print "\n\n\n"
-    print txt
-    print "\n\nKEYWORDS:"
-    print keywords
-
-    #search_bing(keywords)    
-    #return '{"result":"5"}'
+    #print "\n\n\n"
+    #print txt
+    #print "\n\nKEYWORDS:"
+    #print keywords
+    #search_bing(keywords) 
     return txt
 
+@app.route('/search_results')
+def search_bing():
+    app_ID="F0EB80C0CD181F47B512016FD3A74CDB58D302B4"
+
+    bing = bingapi.Bing(app_ID)
+    #results has json format
+    #for kw in keywords:
+    kw="hunting"
+    res = bing.do_web_search(kw)
+    print "\n\nKEYWORD=%s" %(kw)
+    print res["SearchResponse"]["Web"]["Results"]
+    print "\n\n\nTitle  :"
+    #print res["SearchResponse"]["Web"]["Results"]["Title"]
+    #for i in  res["SearchResponse"]["Web"]["Results"]:
+     #   print i["Title"]
+      #  #print i["Description"]
+       # print i["Url"]
+        #print "\n---------------------------------"
+
+    txt1 = json.dumps(res["SearchResponse"]["Web"]["Results"])
+    #c=["jayesh","pawar"]
+    #txt='{"result" : '
+    #xt += json.dumps(c)
+    #txt += "}"
+    print txt1
+    return txt1
+    
 
 def traverse(t):
     global chunk_count

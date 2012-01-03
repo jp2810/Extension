@@ -11,23 +11,40 @@
 </script>-->
 <script type=text/javascript>
   $(function() {
-  $('a#calculate').bind('click', function() {
+  $('a#keywords').bind('click', function() {
   $.getJSON('http://127.0.0.1:5000/tokenize', {
   url: $('input[name="url"]').val()
    }, function(data) {
     $.each(data.result,function(i,val){
-  $("#display").append(i+"=>"+val+"<br/>");
+  $("#keyword_id").append(i+"=>"+val+"<br/>");
+  });//each
+  });//getjson
+  return false;
+  });//click 
+
+
+  $('a#search_results').bind('click', function() {
+  $.getJSON('http://127.0.0.1:5000/search_results', {
+  url: $('input[name="url"]').val()
+  },
+  function(data) {
+    $.each(data,function(i,val){
+  $("#search_result_id").append(i+"=>"+val.Url+"<br/>");
   });
-  $("#result").text(data.result[0]);
   });
   return false;
   });
+
   });
 </script>
 <h1>jQuery Example</h1>
 
 <p>
   <input type=text size=5 name=url> 
-  <p><a href=# id=calculate>calculate server side</a>
+  <p><a href=# id=keywords>Get Keywords</a>
+    <div id="keyword_id"></div>
+  <p><a href=# id=search_results>Get Search Result</a>
+    <div id="search_result_id"></div>
   <span id=result>?</span>
-<div id="display"></div>
+
+
