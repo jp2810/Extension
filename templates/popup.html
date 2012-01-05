@@ -1,14 +1,14 @@
 <!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.js"></script>-->
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js">
 </script>
-<!--<script type=text/javascript>
+<script type=text/javascript>
   window.addEventListener("load", windowLoaded, false);
   function windowLoaded() {
   chrome.tabs.getSelected(null, function(tab) {
   $('#url').val(tab.url);
   });
   }
-</script>-->
+</script>
 <script type=text/javascript>
   $(function() {
   $('a#keywords').bind('click', function() {
@@ -25,12 +25,20 @@
 
   $('a#search_results').bind('click', function() {
   $.getJSON('http://127.0.0.1:5000/search_results', {
-  url: $('input[name="url"]').val()
-  },
-  function(data) {
-   // $.each(data,function(i,val){
-  //$("#search_result_id").append(i+"=>"+val.Url+"<br/>");
-  //});
+  url: $('#url').val()
+  },function(data) {
+  $.each(data.keywords,function(i,val){
+  $("#search_result_id").append(i+"=>"+val+"<br/>");
+  });
+
+  //$("#search_result_id").append(data.results[0][0].Url+"<br/>");
+  $("#search_result_id").append(data.keywords.length)
+  $.each(data.results,function(i,val){
+  $.each(val,function(j,val1){
+  $("#search_result_id").append(j+"=>"+val1.Url+"<br/>");
+  });
+  });
+
   });
   return false;
   });

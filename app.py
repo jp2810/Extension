@@ -108,21 +108,19 @@ def search_bing():
       #  #print i["Description"]
        # print i["Url"]
         #print "\n---------------------------------"
-    txt1 = json.dumps(res["SearchResponse"]["Web"]["Results"])
+    #txt1 = json.dumps(res["SearchResponse"]["Web"]["Results"])
     #print txt1
     #return txt
     kw1 = ["mk gandhi","hitler"]
-    txt2 = "{"
+    arr=[]
     for k in kw1:
-        txt2 += "\"" + k + "\""
         res = bing.do_web_search(k)
-        txt2 += ":"
-        txt2 += json.dumps(res["SearchResponse"]["Web"]["Results"])
-        txt2 +=","
-    txt2 += '"tt":"result"'
-    txt2 += "}"
-    print "\n\\n\n\n\ntxt2 :"+txt2
-    return txt2
+        #print "\n\\n\nress  :"+json.dumps(res["SearchResponse"]["Web"]["Results"])
+        arr.append(res["SearchResponse"]["Web"]["Results"])
+    #print "\n\\n\n\n\ntxt2 :"+txt2
+    txt3 = json.dumps({"keywords":kw1,"results":arr})
+    print "\n\\n\n\n\ntxt3 :"+txt3
+    return txt3
 
 def traverse(t):
     global chunk_count
