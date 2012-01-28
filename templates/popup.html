@@ -1,44 +1,50 @@
 <!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.js"></script>-->
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js">
 </script>
+
 <script type=text/javascript>
   window.addEventListener("load", windowLoaded, false);
   function windowLoaded() {
   chrome.tabs.getSelected(null, function(tab) {
-  $('#url').val(tab.url);
+  $('#url_send').val(tab.url);
   });
   }
 </script>
 <script type=text/javascript>
+  var kwd_arr
   $(function() {
   $('a#keywords').bind('click', function() {
   $.getJSON('http://127.0.0.1:5000/tokenize', {
-  url: $('input[name="url"]').val()
+  url: $('#url_send').val()
    }, function(data) {
+    kwd_arr = data.result;
     $.each(data.result,function(i,val){
   $("#keyword_id").append(i+"=>"+val+"<br/>");
   });//each
   });//getjson
   return false;
   });//click 
-
-
+  
   $('a#search_results').bind('click', function() {
-  $.getJSON('http://127.0.0.1:5000/search_results', {
-  url: $('#url').val()
-  },function(data) {
-  $.each(data.keywords,function(i,val){
-  $("#search_result_id").append(i+"=>"+val+"<br/>");
-  });
+  $.getJSON('http://127.0.0.1:5000/search_results',
+  function(data) {
+  
+   $.each(data.final_results, function(index, value) { 
+             
+    $("#search_result_id").append("<br/>keyword="+value.keyword+"<br/>");
+    $.each(data.final_results[index].search_res,function(i,val)
+     {
+          $("#search_result_id").append("<br/>Title:"+val.Title+"<br/>");
+          $("#search_result_id").append("<br/>Description:"+val.Description+"<br/>");
+          $("#search_result_id").append("<a href="+val.Url+"id="+i+"target="+"_blank"+">"+val.Url+"</a><br/>");
+          
+          return(i!=3);
+  
+      });
+        $("#search_result_id").append("<br/><br/>");
+    });
 
-  //$("#search_result_id").append(data.results[0][0].Url+"<br/>");
-  $("#search_result_id").append(data.keywords.length)
-  $.each(data.results,function(i,val){
-  $.each(val,function(j,val1){
-  $("#search_result_id").append(j+"=>"+val1.Url+"<br/>");
-  });
-  });
-
+  
   });
   return false;
   });
@@ -46,13 +52,17 @@
   });
 </script>
 <h1>jQuery Example</h1>
-
+<link href="css_file.css" rel="stylesheet" type="text/css">
+<input type="hidden" id="url_send"/>
 <p>
-  <input type=text size=5 name=url> 
-  <p><a href=# id=keywords>Get Keywords</a>
+  
+<p><a href=# id=keywords>Get Keywords</a>
     <div id="keyword_id"></div>
-  <p><a href=# id=search_results>Get Search Result</a>
+    <div id="show"></div>
+<p><a href=# id=search_results>Get Search Result</a>
+    <div id="kwd_id"></div>
     <div id="search_result_id"></div>
-  <span id=result>?</span>
+
+
 
 

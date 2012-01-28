@@ -10,19 +10,9 @@ from bingapi import bingapi
 import pdb
 app = Flask(__name__)
 STOPWORDS = ["The", "the", "or"]
+app_ID="F0EB80C0CD181F47B512016FD3A74CDB58D302B4"
 chunk_count = 0
-npchunks = []
 keywords = []
-
-@app.route('/_add_numbers')
-def add_numbers():
-    a = request.args.get('a', 0, type=int)
-    b = request.args.get('b', 0, type=int)
-    c = request.args.get('c', 0, type=str)
-    
-    print "hello";
-    print c;
-    return jsonify(result=a+b)
 
 @app.route('/')
 def index():
@@ -30,10 +20,11 @@ def index():
 
 @app.route('/tokenize',methods=['GET','POST'])
 def tokenize():
+    global keywords    
+    npchunks = []	
     count = 0	 
-    adr = request.args.get('url', 0, type=str)
-    webpage = urllib2.urlopen(adr).read()
-    
+    url = request.args.get('url', 0, type=str)
+    webpage = urllib2.urlopen(url).read()
     para= re.compile('<p>(.*)</p>') #collect data in p tags and store in para object
     raw = re.findall(para , webpage)
     rawstr = ' '.join(raw) 
@@ -42,14 +33,10 @@ def tokenize():
     
     
     ### removing stopwords
-    filtered_word_list = token_raw[:] #make a copy of the word_list
+    #filtered_word_list = token_raw[:] #make a copy of the word_list
     for word in token_raw: # iterate over word_list
         if word in nltk.corpus.stopwords.words('english') or not word.isalnum(): 
-            filtered_word_list.remove(word)
-    token_raw = []
-    token_raw.extend(filtered_word_list)
-   # txt=' '
-   # txt = txt + 'Frequency Distribution: </br>' 
+            token_raw.remove(word)
     pos_tag_raw = nltk.pos_tag(token_raw)
     grammar = """
               NP: {<JJ>*<NN>}
@@ -59,10 +46,9 @@ def tokenize():
                 """
     chunks = nltk.RegexpParser(grammar)
     chunkset = chunks.parse(pos_tag_raw)
-    
-    
-    del npchunks[0:]
-    traverse(chunkset)
+     
+    del npchunks[0:] 
+    traverse(chunkset,npchunks)
     
     fd1 = nltk.FreqDist(npchunks)
     fd1keys = fd1.keys() 
@@ -70,59 +56,56 @@ def tokenize():
     most_freq = fd1.max()
 
     len_text = len(npchunks)
+    for kw in keywords:
+        print "keywords:%s:%d" %(kw,fd1[kw])
+ 
     for ch in npchunks: 
-        chunk_index = [index for (index, chnk) in enumerate(npchunks) if chnk == ch]
-        chunk_position = chunk_index[0]
-        if((chunk_position < (len_text/1.5)) and (fd1[ch] >= (fd1[most_freq]/3))) : 
-            keywords.append(ch)
+        chunk_position = npchunks.index(ch)  
+        position = 0 
+        if((chunk_position < (len_text/1.5)) and (fd1[ch] >= (fd1[most_freq]/3))) :
+	    for (index,kw) in enumerate(keywords):
+                if fd1[kw] <= fd1[ch]:
+	            position = index
+		    break
+
+            keywords.insert(position,ch)
             count += 1
-   
-    #for kw in keywords:
-     #   print "%s" %(kw)
+    
+    keywords = [ keywords[i] for i,x in enumerate(keywords) if x not in keywords[i+1:]] 
+    for kw in keywords:
+        print "%s:%d" %(kw,fd1[kw])
         
     txt= '{"result":'
     txt += json.dumps(keywords)
     txt += "}"
-    #print "\n\n\n"
-    #print txt
-    #print "\n\nKEYWORDS:"
-    #print keywords
-    #search_bing(keywords) 
+    print "\n\n\n"
+    print txt
+    print "\n\nKEYWORDS:"
+    print keywords
+   
     return txt
+
 
 @app.route('/search_results')
 def search_bing():
-    app_ID="F0EB80C0CD181F47B512016FD3A74CDB58D302B4"
-
+   
+    return_string ='{"final_results":['
+    i=0
     bing = bingapi.Bing(app_ID)
-    #results has json format
-    #for kw in keywords:
-    kw="hunting"
-    res = bing.do_web_search(kw)
-    #print "\n\nKEYWORD=%s" %(kw)
-    #print res["SearchResponse"]["Web"]["Results"]
-    #print "\n\n\nTitle  :"
-    #print res["SearchResponse"]["Web"]["Results"]["Title"]
-    #for i in  res["SearchResponse"]["Web"]["Results"]:
-     #   print i["Title"]
-      #  #print i["Description"]
-       # print i["Url"]
-        #print "\n---------------------------------"
-    #txt1 = json.dumps(res["SearchResponse"]["Web"]["Results"])
-    #print txt1
-    #return txt
-    kw1 = ["mk gandhi","hitler"]
-    arr=[]
-    for k in kw1:
-        res = bing.do_web_search(k)
-        #print "\n\\n\nress  :"+json.dumps(res["SearchResponse"]["Web"]["Results"])
-        arr.append(res["SearchResponse"]["Web"]["Results"])
-    #print "\n\\n\n\n\ntxt2 :"+txt2
-    txt3 = json.dumps({"keywords":kw1,"results":arr})
-    print "\n\\n\n\n\ntxt3 :"+txt3
-    return txt3
 
-def traverse(t):
+    #Getting Search results for each keywords and this loop builds json object. structure final_results:[array whr each element is {keyword:value, search_res:[arr of search res]}]
+    for kw in keywords:
+        res=bing.do_web_search(kw)
+        dump_res = json.dumps({"keyword":kw,"search_res":res["SearchResponse"]["Web"]["Results"]}) 
+        return_string += dump_res + ","
+    return_string +='{"test":"dummy_res"}' #Add dummy result for comma after last result
+    return_string += "]}"
+    
+    print return_string
+    return return_string
+    
+
+def traverse(t,npchunks):
     global chunk_count
     try:
         t.node
@@ -133,7 +116,7 @@ def traverse(t):
         npchunks.append(split_chunk) 
     else:
         for child in t:
-            traverse(child)
+            traverse(child,npchunks)
 
     
 if __name__=="__main__":

@@ -1,26 +1,63 @@
-<html>
-	<head>
-		<script type="text/javascript">
-			function use_of_ajax()
-			{
-				//alert("function called");
-				xmlhttp=new XMLHttpRequest();
-				xmlhttp.open("get","/",true);
-				xmlhttp.send(null);
-				xmlhttp.onreadystatechnge=function()
-				{
-					if(xmlhttp.readystate=4 && xmlhttp.status=200)
-					{
-						document.getElementById("name").innerHTML=xmlhttp.ResponseText;
-					}
-				}
-			}
-		</script>
-	</head>
-	<body>
-		<div id=""name>
-			<h2>this text will change</h2>
-		</div>
-		<button type="button" onclick="use_of_ajax()">change content</button>
-	</body>
-</html>
+<!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.js"></script>-->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js">
+</script>
+
+<script type=text/javascript>
+  window.addEventListener("load", windowLoaded, false);
+  function windowLoaded() {
+  chrome.tabs.getSelected(null, function(tab) {
+  $('#url_send').val(tab.url);
+  });
+  }
+
+
+  $(function() {
+  $('a#keywords').bind('click', function() {
+  $.getJSON('http://127.0.0.1:5000/tokenize', {
+ // url: $('input[name="url"]').val()
+    c:$('#url_send').val()
+   }, function(data) {
+    $.each(data.result,function(i,val){
+  $("#keyword_id").append(i+"=>"+val+"<br/>");
+  });//each
+  });//getjson
+  return false;
+  });//click 
+
+
+  $('a#search_results').bind('click', function() {
+  $.getJSON('http://127.0.0.1:5000/search_results', {
+  url: $('input[name="url"]').val(),
+
+  },
+  function(data) {
+    $.each(data,function(i,val){
+  $("#search_result_id").append(i+"=>"+"<a href="+val.Url+"id="+i+"target="+"_blank"+">"+val.Title+"</a><br/>");
+   });
+      
+     //$("#search_result_id").click(function(){
+       //       window.open('http://tigersinindia.blogspot.com/');
+            
+        //  });
+     });
+  
+  return false;
+  });
+  });
+
+
+</script>
+<h1>jQuery Example</h1>
+
+<p>
+  <input type="hidden" id="url_send"/>
+  <input type=text size=5 name=url> 
+  <p><a href=# id=keywords>Get Keywords</a>
+    <div id="keyword_id"></div>
+  <p><a href=# id=search_results>Get Search Result</a>
+    <div id="search_result_id"></div>
+   <!--<a href=# id="search_result_id">-->
+   <a href="http://tigersinindia.blogspot.com/">tigerindia</a>
+  <span id=result>?</span>
+
+
