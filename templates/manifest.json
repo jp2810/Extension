@@ -1,0 +1,26 @@
+{
+  "version": "1",
+  "name": "Jayesh content script",
+  "description": "content script demo",
+  "background_page":"background.html",
+  "page_action":
+  {
+  	"default_icon": "yourIcon16.png",
+  	"default_title": "browser action title"
+  },
+  "content_scripts":[{
+      "css": ["your.css"],
+      "js":["jquery-1.4.2.js",
+      	"contentScript.js"],
+      "matches": ["http://*/*",
+      	"https://*/*"],
+	  "run_at":"document_idle"
+  }],
+	"content_security_policy": "default-src 'self' " ,
+  "permissions": [
+	"tabs", 
+	"http://*/*", 
+	"https://*/*"
+  ]
+}
+

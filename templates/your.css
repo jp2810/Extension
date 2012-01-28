@@ -1,0 +1,90 @@
+	.layout{
+		position: fixed;
+		bottom: 1%;
+		left: 2%;
+		right: 2%;
+		width: 108em;
+		background-color: blue;
+		height: 70px;
+	}
+	.mextension {
+		position: relative;
+		right: 10px;
+		left: 10px;
+		background-color: yellow;
+		width: 1300px;
+		height: 70px;
+	}
+	.mextension_images{
+		position: absolute;
+		left: 0px;
+		top: 5px;
+		width: 300px;
+		background-color: red;
+		height: 60px;
+	}
+	.mextension_video{
+		position: absolute;
+		left: 300px;
+		top: 5px;
+		background-color: paleGoldenrod;
+		width: 300px;
+		height: 60px;
+	}
+	.mextension_position{
+		position: absolute;
+		left: 600px;
+		top: 5px;
+		background-color: magenta;
+		width: 300px;
+		height: 60px;
+	}	
+	.mextension_person{
+		position: absolute;
+		left: 900px;
+		top: 5px;
+		background-color: gray;
+		width: 300px;
+		height: 60px;
+	}
+	#mextension_popup_video {
+		background-color: khaki;
+		width: 380px;
+		height: 200px;
+		left: 280px;
+		bottom: 80px;
+		position: fixed;
+	}
+	
+	
+	.notranslate{
+	background-color: yellow;
+border-top-width: 0px !important;
+border-right-width: 0px !important;
+border-bottom-width: 0px !important;
+border-left-width: 0px !important;
+border-style: initial !important;
+border-color: initial !important;
+bottom: 0px !important;
+display: block !important;
+left: 0px !important;
+margin-top: 0px !important;
+margin-right: 0px !important;
+margin-bottom: 0px !important;
+margin-left: 0px !important;
+outline-width: 0px !important;
+outline-style: initial !important;
+outline-color: initial !important;
+padding-top: 0px !important;
+padding-right: 0px !important;
+padding-bottom: 0px !important;
+padding-left: 0px !important;
+position: fixed ;
+right: 0px !important;
+top: auto !important;
+vertical-align: baseline !important;
+visibility: visible;
+width: 100% !important;
+z-index: 2147483647 !important;
+height: 49px !important;
+}
