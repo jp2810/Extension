@@ -1,0 +1,5 @@
+<!doctype html>
+<title>Hello from flask</title>
+
+	<h1>Hello world ! </h1>
+{% endif %}

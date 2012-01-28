@@ -1,0 +1,55 @@
+.layout{
+		position: fixed;
+		bottom: 1%;
+		width: 83em;
+		background-color: blue;
+		height: 70px;
+	}
+	.mextension {
+		position: relative;
+		right: 10px;
+		left: 10px;
+		background-color: yellow;
+		width: 1300px;
+		height: 70px;
+	}
+	.mextension_images{
+		position: absolute;
+		left: 0px;
+		top: 5px;
+		width: 300px;
+		background-color: red;
+		height: 60px;
+	}
+	.mextension_video{
+		position: absolute;
+		left: 300px;
+		top: 5px;
+		background-color: paleGoldenrod;
+		width: 300px;
+		height: 60px;
+	}
+	.mextension_position{
+		position: absolute;
+		left: 600px;
+		top: 5px;
+		background-color: magenta;
+		width: 300px;
+		height: 60px;
+	}	
+	.mextension_person{
+		position: absolute;
+		left: 900px;
+		top: 5px;
+		background-color: gray;
+		width: 300px;
+		height: 60px;
+	}
+	#mextension_popup_video {
+		background-color: khaki;
+		width: 380px;
+		height: 200px;
+		left: 280px;
+		bottom: 80px;
+		position: fixed;
+	}

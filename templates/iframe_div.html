@@ -1,0 +1,82 @@
+<!doctype html>
+
+<head>
+	
+	<style type="text/css">
+   		.layout{
+		position: fixed;
+		width: 83em;
+		background-color: blue;
+		height: 70px;
+	}
+	.mextension {
+		position: relative;
+		right: 10px;
+		left: 10px;
+		background-color: yellow;
+		width: 1300px;
+		height: 70px;
+	}
+	.mextension_images{
+		position: absolute;
+		left: 0px;
+		top: 5px;
+		width: 300px;
+		background-color: red;
+		height: 60px;
+	}
+	.mextension_video{
+		position: absolute;
+		left: 300px;
+		top: 5px;
+		background-color: paleGoldenrod;
+		width: 300px;
+		height: 60px;
+	}
+	.mextension_position{
+		position: absolute;
+		left: 600px;
+		top: 5px;
+		background-color: magenta;
+		width: 300px;
+		height: 60px;
+	}	
+	.mextension_person{
+		position: absolute;
+		left: 900px;
+		top: 5px;
+		background-color: gray;
+		width: 300px;
+		height: 60px;
+	}
+	#mextension_popup_video {
+		background-color: khaki;
+		width: 380px;
+		height: 200px;
+		left: 280px;
+		bottom: 80px;
+		position: fixed;
+	}
+	function show(){
+			dd = document.getElementById("mextension_popup_video");
+			if(dd.style.display=="none")
+			{
+				dd.style.display=""
+			}
+			else{
+				dd.style.display="none";
+			}
+		
+		}
+	 </style>
+</head>
+<title>Hello from flask</title>
+<div id="mextension_popup_video" >Click anywhere in the document to auto-close me</div>
+	<div class="layout">
+		<div class="mextension">
+			<div class="mextension_images">My extension</div>
+			<div class="mextension_video">video</div>
+			<div class="mextension_position">position</div>
+			<div class="mextension_person">person</div>
+		</div>	
+</div>	
