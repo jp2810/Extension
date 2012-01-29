@@ -1,68 +1,118 @@
-<!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.js"></script>-->
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js">
-</script>
+<html>
+<!--<link href="css_file.css" rel="stylesheet" type="text/css"/>-->
+	<style>
+		.search_result_id{
+			height: 150px; // height  of the extension 
+			width: 500px;
+			margin-top: 0px;
+			overflow-y:auto;
+			position : relative;
+		}
 
-<script type=text/javascript>
-  window.addEventListener("load", windowLoaded, false);
-  function windowLoaded() {
-  chrome.tabs.getSelected(null, function(tab) {
-  $('#url_send').val(tab.url);
-  });
-  }
-</script>
-<script type=text/javascript>
-  var kwd_arr
-  $(function() {
-  $('a#keywords').bind('click', function() {
-  $.getJSON('http://127.0.0.1:5000/tokenize', {
-  url: $('#url_send').val()
-   }, function(data) {
-    kwd_arr = data.result;
-    $.each(data.result,function(i,val){
-  $("#keyword_id").append(i+"=>"+val+"<br/>");
-  });//each
-  });//getjson
-  return false;
-  });//click 
-  
-  $('a#search_results').bind('click', function() {
-  $.getJSON('http://127.0.0.1:5000/search_results',
-  function(data) {
-  
-   $.each(data.final_results, function(index, value) { 
-             
-    $("#search_result_id").append("<br/>keyword="+value.keyword+"<br/>");
-    $.each(data.final_results[index].search_res,function(i,val)
-     {
-          $("#search_result_id").append("<br/>Title:"+val.Title+"<br/>");
-          $("#search_result_id").append("<br/>Description:"+val.Description+"<br/>");
-          $("#search_result_id").append("<a href="+val.Url+"id="+i+"target="+"_blank"+">"+val.Url+"</a><br/>");
-          
-          return(i!=3);
-  
-      });
-        $("#search_result_id").append("<br/><br/>");
-    });
+	  	.search_result_id ul li {
+	   		list-style-type: circle;
+	   		display : block;
+		}
+		.search_result_id ul li ul{
+	   		visibility:hidden;
+	   		background:blue;
+		}
+	  	body{
+			top:0px;
+			width:300px;
+			height:200px;
+			background-color: #fafafa;
+			overflow-y: hidden;
+			overflow-x: hidden;
+	   	}
+	   	.linkList {
+			position: absolute;
+			top: 14px;
+			border: 2px solid #333;
+			margin: 0;
+			margin-left: -32px;
+			background-color: #EEE;
+			padding: 10px;
+	 	 }
 
-  
-  });
-  return false;
-  });
-
-  });
-</script>
-<h1>jQuery Example</h1>
-<link href="css_file.css" rel="stylesheet" type="text/css">
-<input type="hidden" id="url_send"/>
-<p>
-  
-<p><a href=# id=keywords>Get Keywords</a>
-    <div id="keyword_id"></div>
-    <div id="show"></div>
-<p><a href=# id=search_results>Get Search Result</a>
-    <div id="kwd_id"></div>
-    <div id="search_result_id"></div>
-
-
+	   	.showLinks {
+			padding-left: 5px;
+			color: blue;
+			font-size: 0.9em;
+			position: relative;
+	   	}
+	   	.showLinks .linkList {
+	   		display: none;
+	   	}
+	   	.showLinks:hover .linkList {
+	   		display: block;
+	   	}
+	</style>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+	<script type=text/javascript>
+	   	var current_url;
+	  	window.addEventListener("load", windowLoaded, false);
+	  	function windowLoaded() {
+		  	chrome.tabs.getSelected(null, function(tab) {
+		       		current_url=tab.url;
+		  		$('#url_send').val(tab.url);
+	  		});
+	  	}
+	  	var global_data;
+	  	$(function() {
+		  	$('button').bind('click', function() { 
+				$.getJSON('http://127.0.0.1:5000/tokenize',{
+			   		url:$('#url_send').val()
+		  			}, function(data) {
+				     		global_data = data;
+				   		var markup = "<ul>";
+				   		$.each(global_data.final_results, function(index, value){              
+		  	    				markup += "<li class='keyword'>" + value.keyword + "<span class='showLinks'>show links<ul class='linkList'>";
+			  				$.each(global_data.final_results[index].search_res,function(i,val){
+			  					markup += "<li><a href="+val.Url+"id="+i+"target="+"_blank"+">"+val.Url+"</a></li>";
+			  					return(i!=3); 
+			    				});
+			  				markup += "</ul></span></li>";
+		      					return(index!=3);
+		      				});
+			      			markup += "</ul>";
+			      			$(".search_result_id").append(markup);
+			      		}
+			  	);
+			      	return false;
+			});
+		  	$("#ajaxLoader").ajaxStart(function() { 
+		  		$(this).show(); 
+		  	})
+			.ajaxStop(function() { 
+				$(this).hide(); 
+			});
+			$('a[target="_blank"]').removeAttr('target');
+	    	});	
+	
+	    	$(document).ready(function(){             
+	    		$("a").live("click",function(){
+			    	var url=$(this).html();
+			     	window.open (url, "mywindow" );                         
+			     	window.open (current_url+"#maintain_focus", "_self" );									       
+	       		});
+		});
+	</script>
+	
+	<body>
+		<h1 >jQuery Example</h1>
+		<input type="hidden" id="url_send"/> 
+		<a href=# id=keywords>Get Keywords</a>
+		<div id="keyword_id"></div>
+		<div id="show"></div>
+		<button type="button">Get Search Result</button>
+		<div id="kwd_id"></div>
+		<div class="search_result_id"></div>
+		<div id="ajaxLoader" style="display:none">
+		    	<h2>Please wait</h2>
+		    	<p>I'm getting my AJAX on!</p>
+		</div>
+	</body>
+</html>
 
 

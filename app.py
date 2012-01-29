@@ -7,7 +7,9 @@ import urllib
 import json
 import sys
 from bingapi import bingapi
-import pdb
+#from cate_mongo import categorization as CT
+
+
 app = Flask(__name__)
 STOPWORDS = ["The", "the", "or"]
 app_ID="F0EB80C0CD181F47B512016FD3A74CDB58D302B4"
@@ -83,27 +85,28 @@ def tokenize():
     print "\n\nKEYWORDS:"
     print keywords
    
-    return txt
-
-
-@app.route('/search_results')
-def search_bing():
-   
     return_string ='{"final_results":['
     i=0
     bing = bingapi.Bing(app_ID)
 
     #Getting Search results for each keywords and this loop builds json object. structure final_results:[array whr each element is {keyword:value, search_res:[arr of search res]}]
+   # obj = CT()
     for kw in keywords:
-        res=bing.do_web_search(kw)
-        dump_res = json.dumps({"keyword":kw,"search_res":res["SearchResponse"]["Web"]["Results"]}) 
+    #    category = obj.get_category(kw)
+	category= "cat"
+        res = bing.do_web_search(kw)
+        dump_res = json.dumps({"keyword":kw,"category":category,"search_res":res["SearchResponse"]["Web"]["Results"]}) 
         return_string += dump_res + ","
     return_string +='{"test":"dummy_res"}' #Add dummy result for comma after last result
     return_string += "]}"
-    
+
     print return_string
     return return_string
+ 
+
+
     
+
 
 def traverse(t,npchunks):
     global chunk_count
