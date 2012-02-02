@@ -2,8 +2,8 @@
 <!--<link href="css_file.css" rel="stylesheet" type="text/css"/>-->
 	<style>
 		.search_result_id{
-			height: 150px; // height  of the extension 
-			width: 500px;
+			height: 200px; // height  of the extension 
+			width: 300px;
 			margin-top: 0px;
 			overflow-y:auto;
 			position : relative;
@@ -13,6 +13,25 @@
 	   		list-style-type: circle;
 	   		display : block;
 		}
+		/*
+		  .search_result_id ul li ul {
+		   list-style-type: square;
+			display : block;
+			 background:blue;
+		/*     border: 0px solid #000;
+				-webkit-border-radius: 5px;
+				-moz-border-radius: 5px;
+			-webkit-box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.5);*/
+			//margin: 10px 0px 100px -46px;
+				 margin : 5px
+			padding: 0 0px 0;
+			position:relative;
+				visibility:hidden;
+			width: 50px;
+			top:50px;
+			right:50px;
+		}*/
+
 		.search_result_id ul li ul{
 	   		visibility:hidden;
 	   		background:blue;
@@ -33,6 +52,7 @@
 			margin-left: -32px;
 			background-color: #EEE;
 			padding: 10px;
+			z-index:2;
 	 	 }
 
 	   	.showLinks {
@@ -93,24 +113,20 @@
 	    	$(document).ready(function(){             
 	    		$("a").live("click",function(){
 			    	var url=$(this).html();
-			     	window.open (url, "mywindow" );                         
-			     	window.open (current_url+"#maintain_focus", "_self" );									       
+			     	window.open (url);								       
 	       		});
 		});
 	</script>
 	
 	<body>
-		<h1 >jQuery Example</h1>
 		<input type="hidden" id="url_send"/> 
-		<a href=# id=keywords>Get Keywords</a>
 		<div id="keyword_id"></div>
 		<div id="show"></div>
 		<button type="button">Get Search Result</button>
 		<div id="kwd_id"></div>
 		<div class="search_result_id"></div>
 		<div id="ajaxLoader" style="display:none">
-		    	<h2>Please wait</h2>
-		    	<p>I'm getting my AJAX on!</p>
+		    	<p>Please wait...</p>
 		</div>
 	</body>
 </html>
