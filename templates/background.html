@@ -4,9 +4,20 @@
 			alert("I'm the background page loading once.");
 		</script>
 		<script type="text/javascript" src="jquery-1.4.2.js"></script>
-		<script type="text/javascript">
-		
-	</script>
+		<script>
+		  // Called when a message is passed.  We assume that the content script
+		  // wants to show the page action.
+		  function myRequestHandler(request, sender, sendResponse) {
+
+			chrome.tabs.executeScript(null,
+			{code:'$("#mextension_popup_video").show();'});
+		    // Return nothing to let the connection be cleaned up.
+		    sendResponse({});
+		  };
+
+		  // Listen for the content script to send a message to the background page.
+		  chrome.extension.onRequest.addListener(myRequestHandler);
+		</script>
 	</head>
 	<body>
 	</body>
