@@ -1,0 +1,18 @@
+	.layout{
+		position: fixed;
+		bottom: 1%;
+		left: 2%;
+		right: 2%;
+		width: 108em;
+		background-color: blue;
+		height: 70px;
+	}
+	.keywords{
+		position: relative;
+		right: 10px;
+		left: 10px;
+		background-color: yellow;
+		width: 1300px;
+		height: 70px;
+	}
+	

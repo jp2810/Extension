@@ -1,0 +1,20 @@
+<html>
+<head>
+<script type="text/javascript" src="jquery-1.4.2.js"></script>
+<script>
+  // Called when the user clicks on the browser action.
+  chrome.browserAction.onClicked.addListener(function(tab) {
+	alert(tab.url);
+	$.getJSON('http://127.0.0.1:5000/',{
+			   		url:tab.url
+		  			}, function(data) {
+				     		alert("getjson callback function");
+			      		}
+			  	);	
+    chrome.tabs.executeScript(
+        null, {code:"alert('tab url:');"});
+  });
+
+</script>
+</head>
+</html>
