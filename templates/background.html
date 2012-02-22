@@ -10,8 +10,8 @@
 			   		url:tab.url
 		  			}, function(response) {
 							//chrome.tabs.executeScript(null,{code:"$('#url_send').val('Pawar');"});
-							//alert(response.final_results[0].keyword);
-							chrome.tabs.executeScript(null,{code:"$('#url_send').val('"+response.final_results[0].keyword+"');"});				     		
+							alert(response.final_results[0].keyword);
+							//chrome.tabs.executeScript(null,{code:"$('#url_send').val('"+response.final_results[0].keyword+"');"});				     		
 			      		}
 			  	);	
     chrome.tabs.executeScript(null, {code:"alert('tab url:');"});
