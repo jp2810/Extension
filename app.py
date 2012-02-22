@@ -21,7 +21,7 @@ def scraping():
     print "starting time:",
     now = datetime.datetime.now()
     print datetime.time(now.hour, now.minute, now.second)
-#	url = request.args.get('url', 0, type=str)
+    #url = "http://www.google.co.in/"
     url = request.args.get('url', 0, type=str)
     webpage = urllib2.urlopen(url).read()
     para= re.compile('<p>(.*)</p>') #collect data in p tags and store in para object
@@ -114,6 +114,7 @@ def traverse(t,npchunks):
     else:
         for child in t:
             traverse(child,npchunks)
+    return
 
     
 if __name__=="__main__":

@@ -53,5 +53,5 @@
 		bottom: 80px;
 		position: fixed;
 		border-width: .2em; 
-		border-color: beige; 
+		border-color: beige 
 	}

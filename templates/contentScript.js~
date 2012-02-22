@@ -1,12 +1,9 @@
-alert("I'm your content script on every page.");
-$(document).ready(function() {
-      alert("document ready occurred!");
-  //    $('<div class="layout"><div class="mextension"><div class="mextension_images">My extension</div><div class="mextension_video" onclick="show();">video</div><div class="mextension_position">position</div><div class="mextension_person">person</div></div>').appendTo('body');
-});
+//alert("in content script");
+//$('<div class="layout"><input type="text" value="Jayesh" id="url_send"/><div class="keywords">keywords</div></div>').appendTo('body');
 
-$(window).load(function() {
-      alert("window load occurred!");
-});
+$('<div class="layout">	<div class="mextension"><div class="keyword1"><p id="mext_image">My extension</p></div><div class="keyword2"><p onclick="show();">video</p></div><div class="keyword3"><p>position</p></div><div class="keyword4"><p>person</p></div></div></div>').appendTo('body');
 
-$('<iframe class="notranslate" src="http://127.0.0.1:5000/iframe_div" frameborder="0"  scrolling="no" style="height=100px"></iframe>').appendTo('body');
-
+$('.layout').hide();
+/*$('.keyword1').click(function(){
+	alert("in onclick function of keyword1");
+});*/
