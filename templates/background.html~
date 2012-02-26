@@ -2,25 +2,41 @@
 <head>
 <script type="text/javascript" src="jquery-1.4.2.js"></script>
 <script>
-  // Called when the user clicks on the browser action.
-  chrome.browserAction.onClicked.addListener(function(tab) {
-	//alert(tab.url);   //W
-	chrome.tabs.executeScript(null,{code:"$('.layout').show();"});
-	$.getJSON('http://127.0.0.1:5000/tokenize',{
-			   		url:tab.url
-		  			}, function(response) {
-							//chrome.tabs.executeScript(null,{code:"$('#url_send').val('Pawar');"});   //need to append input box to body
-							//alert(response.final_results[0].keyword);    //W
-							//chrome.tabs.executeScript(null,{code:"$('#url_send').val('"+response.final_results[0].keyword+"');"});	////need to append input box
-							//chrome.tabs.executeScript(null,{code:"$('p#mext_image').text('Jayesh');"});    //W
-							chrome.tabs.executeScript(null,{code:"$('p#keyword1').text('"+response.final_results[0].keyword+"');"});
-							chrome.tabs.executeScript(null,{code:"$('p#keyword2').text('"+response.final_results[1].keyword+"');"});
-							chrome.tabs.executeScript(null,{code:"$('p#keyword3').text('"+response.final_results[2].keyword+"');"});
-							chrome.tabs.executeScript(null,{code:"$('p#keyword4').text('"+response.final_results[3].keyword+"');"});
-			      		}
-			  	);	
-    //chrome.tabs.executeScript(null, {code:"alert('tab url:');"});    //W
-  });
+		var count=0,total_count=0,global_response;
+	  	// Called when the user clicks on the browser action.
+	  	chrome.browserAction.onClicked.addListener(function(tab) {
+		//alert(tab.url);   //W
+		chrome.tabs.executeScript(null,{code:"$('.layout').show();"});
+		$.getJSON('http://127.0.0.1:5000/tokenize',{
+				   		url:tab.url
+			  			}, function(response) {
+								//chrome.tabs.executeScript(null,{code:"$('#url_send').val('Pawar');"});   //need to append input box to body
+								//alert(response.final_results[0].keyword);    //W
+								//chrome.tabs.executeScript(null,{code:"$('#url_send').val('"+response.final_results[0].keyword+"');"});	////need to append input box
+								//chrome.tabs.executeScript(null,{code:"$('p#mext_image').text('Jayesh');"});    //W
+								global_response=response;
+								total_count=response.final_result.length;
+								show_keyword(0,3);
+								chrome.tabs.executeScript(null,{code:"$('p#keyword5').text('"+response.final_results[4].keyword+"');"});
+								
+					  		}
+				  	);	
+		//chrome.tabs.executeScript(null, {code:"alert('tab url:');"});    //W
+	  });
+	function show_keyword(start,end){
+		chrome.tabs.executeScript(null,{code:"$('p#keyword1').text('"+response.final_results[0].keyword+"');"});
+		chrome.tabs.executeScript(null,{code:"$('p#keyword2').text('"+response.final_results[1].keyword+"');"});
+		chrome.tabs.executeScript(null,{code:"$('p#keyword3').text('"+response.final_results[2].keyword+"');"});
+		chrome.tabs.executeScript(null,{code:"$('p#keyword4').text('"+response.final_results[3].keyword+"');"});
+								
+	}	  
+	function display_next_keyword(request,sender,sendResponse){
+		alert("from background");
+		
+		sendResponse({});
+	}	
+	//hook event to handler
+	chrome.extension.onRequest.addListener(display_next_keyword);
 </script>
 </head>
 </html>

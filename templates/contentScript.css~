@@ -1,23 +1,31 @@
 	.layout{
 		position: fixed;
 		bottom: 1%;
-		width: 83em;
+		width: 1347px;
 		background-color: black;
 		height: 70px;
 	}
 	.mextension {
 		position: relative;
 		right: 10px;
-		left: 10px;
+		left: 15px;
 		background-color: beige;
-		width: 1300px;
+		width: 1314px;
 		height: 70px;
+	}
+	#prevkeyword{
+		position: absolute;
+		left: 6px;
+		top: 5px;
+		width: 63px;
+		background-color: white;
+		height: 60px;
 	}
 	.keyword1{
 		position: absolute;
-		left: 0px;
+		left: 78px;
 		top: 5px;
-		width: 300px;
+		width: 220px;
 		background-color: white;
 		height: 60px;
 	}
@@ -26,23 +34,39 @@
 		left: 300px;
 		top: 5px;
 		background-color: cyan;
-		width: 300px;
+		width: 220px;
 		height: 60px;
 	}
 	.keyword3{
 		position: absolute;
-		left: 600px;
+		left: 522px;
 		top: 5px;
 		background-color: white;
-		width: 300px;
+		width: 220px;
 		height: 60px;
 	}	
 	.keyword4{
 		position: absolute;
-		left: 900px;
+		left: 746px;
 		top: 5px;
 		background-color: cyan;
-		width: 300px;
+		width: 220px;
+		height: 60px;
+	}
+	.keyword5{
+		position: absolute;
+		left: 967px;
+		top: 5px;
+		background-color: white;
+		width: 220px;
+		height: 60px;
+	}
+	#nextkeyword{
+		position: absolute;
+		left: 1224px;
+		top: 5px;
+		background-color: white;
+		width: 71px;
 		height: 60px;
 	}
 	.popup_keyword1 {

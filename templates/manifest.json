@@ -3,7 +3,7 @@
 	  "version": "1.0",
 	  "background_page": "background.html",
 	  "permissions": [
-		"tabs", "http://*/*"
+		"tabs", "http://*/*","file:///*/*"
 	  ],
 	  "browser_action":
 	  {
@@ -15,6 +15,6 @@
       "js":["jquery-1.4.2.js",
       	"contentScript.js"],
       "matches": ["http://*/*",
-      	"https://*/*"]
+      	"https://*/*","file:///*/*"]
   }]
 }
