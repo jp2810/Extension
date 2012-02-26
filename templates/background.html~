@@ -2,7 +2,9 @@
 <head>
 <script type="text/javascript" src="jquery-1.4.2.js"></script>
 <script>
+		//global variable declared
 		var count=0,total_count=0,global_response;
+		
 	  	// Called when the user clicks on the browser action.
 	  	chrome.browserAction.onClicked.addListener(function(tab) {
 		//alert(tab.url);   //W
@@ -15,25 +17,54 @@
 								//chrome.tabs.executeScript(null,{code:"$('#url_send').val('"+response.final_results[0].keyword+"');"});	////need to append input box
 								//chrome.tabs.executeScript(null,{code:"$('p#mext_image').text('Jayesh');"});    //W
 								global_response=response;
-								total_count=response.final_result.length;
-								show_keyword(0,3);
-								chrome.tabs.executeScript(null,{code:"$('p#keyword5').text('"+response.final_results[4].keyword+"');"});
+								total_count=response.final_results.length;
+								show_keyword(0,4);
+								//chrome.tabs.executeScript(null,{code:"$('p#keyword5').text('"+response.final_results[4].keyword+"');"});
 								
 					  		}
 				  	);	
 		//chrome.tabs.executeScript(null, {code:"alert('tab url:');"});    //W
 	  });
-	function show_keyword(start,end){
-		chrome.tabs.executeScript(null,{code:"$('p#keyword1').text('"+response.final_results[0].keyword+"');"});
-		chrome.tabs.executeScript(null,{code:"$('p#keyword2').text('"+response.final_results[1].keyword+"');"});
-		chrome.tabs.executeScript(null,{code:"$('p#keyword3').text('"+response.final_results[2].keyword+"');"});
-		chrome.tabs.executeScript(null,{code:"$('p#keyword4').text('"+response.final_results[3].keyword+"');"});
-								
-	}	  
-	function display_next_keyword(request,sender,sendResponse){
-		alert("from background");
+	function show_keyword(start,end){	
+		for(var i=start;i<=end && i<total_count;i++,count++)
+		{
+			
+			//alert(global_response.final_results[i].keyword+i);  //W
+			chrome.tabs.executeScript(null,{code:"$('p#keyword"+(i+1)+"').text('"+global_response.final_results[i].keyword+"');"});			//W
+		}
 		
-		sendResponse({});
+	}	  
+	function display_next_keyword(request){
+		var flag = 0;
+		alert("from background");
+		alert(request.button);
+		alert("count=" + count);
+		if(request.button=="next"){
+		
+			alert("for next");
+			if(total_count - count >= 5)
+			{
+				show_keyword(count,count+4);
+					
+			}
+			else
+			{
+				if(total_count-count > 0)
+				{
+			       show_keyword(count,total_count-1);
+			    }
+			    else
+			    {
+			    	alert("stupid..no more kwds");
+			    }
+			
+			}
+		}
+		else{
+			alert("for prev");
+			show_keyword(count,count+flag);
+			count= count-flag;
+		}
 	}	
 	//hook event to handler
 	chrome.extension.onRequest.addListener(display_next_keyword);

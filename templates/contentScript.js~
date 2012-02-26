@@ -31,11 +31,11 @@ $('.keyword4').click(function(){
 });
 $('#prevkeyword').click(function(){
 	alert("button click");
-	chrome.extension.sendRequest({},function(response){});
+	chrome.extension.sendRequest({"button": "prev"});
 });
 $('#nextkeyword').click(function(){
 	alert("button click");
-	chrome.extension.sendRequest({},function(response){});
+	chrome.extension.sendRequest({"button": "next"});
 });
 
 
