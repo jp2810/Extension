@@ -51,7 +51,7 @@ def NP_chunks(token_raw):
       		 NP: {<JJ>*<NN>}
                   }<[\.VI].*>+{
                   {<NNP>+}
-                  {<NN>+}  
+                    
                 """
 	chunks = nltk.RegexpParser(grammar)
 	chunkset = chunks.parse(pos_tag_raw)
@@ -67,7 +67,7 @@ def get_keywords(npchunks):
 	for ch in npchunks: 
 	    chunk_position = npchunks.index(ch)  
 	    position = 0 
-	    if((chunk_position < (len_text/1.5)) and (fd1[ch] >= (fd1[most_freq]/3))):
+	    if((chunk_position < (len_text/1.5)) and (fd1[ch] >= (fd1[most_freq]/2))):
 	    	for (index,kw) in enumerate(keywords):
 	           	if fd1[kw] <= fd1[ch]:
 	        		position = index

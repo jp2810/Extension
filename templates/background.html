@@ -1,72 +1,109 @@
 <html>
 <head>
 <script type="text/javascript" src="jquery-1.4.2.js"></script>
+
 <script>
+		//global variable are declared only while reloading extension..i.e only once
+		//for dealing with count,content_script should pass count and called function will return changed count..which ll be passed next time
+		//for handling click event of next and prev button:::pass flag and count
 		//global variable declared
-		var count=0,total_count=0,global_response;
+		var count=-1,total_count=0,global_response,flag=0;
 		
 	  	// Called when the user clicks on the browser action.
 	  	chrome.browserAction.onClicked.addListener(function(tab) {
-		//alert(tab.url);   //W
 		chrome.tabs.executeScript(null,{code:"$('.layout').show();"});
 		$.getJSON('http://127.0.0.1:5000/tokenize',{
 				   		url:tab.url
 			  			}, function(response) {
-								//chrome.tabs.executeScript(null,{code:"$('#url_send').val('Pawar');"});   //need to append input box to body
-								//alert(response.final_results[0].keyword);    //W
-								//chrome.tabs.executeScript(null,{code:"$('#url_send').val('"+response.final_results[0].keyword+"');"});	////need to append input box
-								//chrome.tabs.executeScript(null,{code:"$('p#mext_image').text('Jayesh');"});    //W
 								global_response=response;
 								total_count=response.final_results.length;
-								show_keyword(0,4);
-								//chrome.tabs.executeScript(null,{code:"$('p#keyword5').text('"+response.final_results[4].keyword+"');"});
-								
+								total_count-=1;
+								show_keyword(0,3);
 					  		}
 				  	);	
-		//chrome.tabs.executeScript(null, {code:"alert('tab url:');"});    //W
-	  });
+		});
 	function show_keyword(start,end){	
-		for(var i=start;i<=end && i<total_count;i++,count++)
+		for(var i=start;i<=end && i<total_count;i++)
 		{
-			
-			//alert(global_response.final_results[i].keyword+i);  //W
-			chrome.tabs.executeScript(null,{code:"$('p#keyword"+(i%5+1)+"').text('"+global_response.final_results[i].keyword+"');"});			//W
-		}
-		
-	}	  
-	function display_next_keyword(request){
-		var flag = 0;
-		alert("from background");
-		alert(request.button);
-		alert("count=" + count);
-		if(request.button=="next"){
-		
-			alert("for next");
-			if(total_count - count >= 5)
+			alert(i);
+			chrome.tabs.executeScript(null,{code:"$('p#keyword"+(i%4+1)+"').text('"+global_response.final_results[i].keyword+"');"});			//W
+			print_res_of_kwd(i);
+			count=count+1;
+		}	
+		//if less than four keyword are displayed then fill other with blank	
+		if(end-start<3)
+		{
+			for(var i=end-start+1;i<=3;i++)
 			{
-				show_keyword(count,count+4);
-					
+				chrome.tabs.executeScript(null,{code:"$('p#keyword"+(i+1)+"').empty();"});
+				chrome.tabs.executeScript(null,{code:"$('div.popup_keyword"+(i+1)+"').empty();"});		
+			}
+		}
+	}	 
+	//jayesh
+	function display_next_keyword(request)
+	{	
+		//keyword are displayed from count to total_count-1
+		alert("count=" + count);
+		if(request.button=="next")
+		{
+			if(flag==1)
+			{
+				//keyword are exhausted
+				alert("no more keyword...");
 			}
 			else
 			{
-				if(total_count-count > 0)
+				//keywords are yet to be displayed
+				if(total_count-count<6)
 				{
-			       show_keyword(count,total_count-1);
-			    }
-			    else
-			    {
-			    	alert("stupid..no more kwds");
-			    }
-			
+					//less than four keyword are remaines...make flag=1
+					if(total_count-count==1)	
+					{
+						flag=1;
+					}
+					else
+					{
+						show_keyword(count+1,total_count-1);
+					}
+				}
+				else
+				{
+					//more than four keyword are remain
+					show_keyword(count+1,count+4)
+				}
 			}
 		}
-		else{
-			alert("for prev");
-			show_keyword(count,count+flag);
-			count= count-flag;
+		else
+		{
+			//for prev button
+			count-=count%4+1
+			if(count<3)
+			{
+				//total keyword are less than four
+				show_keyword(0,count);
+				count-=total_count;
+			}
+			else
+			{
+				show_keyword(count-3,count);
+				count-=4;	
+			}
 		}
-	}	
-	//hook event to handler
+ 	}
+ 	function print_res_of_kwd(index){
+		var markup = "<ul>",clss;
+		for(i = 0; i<3 ; i++)
+		{		
+			markup += "<li><a href="+ global_response.final_results[index].search_res[i].Url+">"+global_response.final_results[index].search_res[i].Title+"</a></li>";	
+			//markup += "</br><li><a href="+ global_response.final_results[index].search_res[i].Url+">"+global_response.final_results[index].search_res[i].Url+"</a></li>";
+		}
+		markup += "</ul>"
+		clss = "div.popup_keyword"+(index%4+1)
+		//chrome.tabs.executeScript(null,{code:"$('"+clss+"').text('');"});		
+		chrome.tabs.executeScript(null,{code:"$('"+clss+"').empty();"});		
+		chrome.tabs.executeScript(null,{code:"$('"+clss+"').append('"+markup+"');"});
+	}
 	chrome.extension.onRequest.addListener(display_next_keyword);
 </script>
 </head>
