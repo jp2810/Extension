@@ -5,6 +5,14 @@
 		background-color: black;
 		height: 70px;
 	}
+	.close-image{
+		display: block;
+		float:right;
+		position:relative;
+		top:-10px;
+		right: -10px;
+		height: 20px;
+	}​
 	.mextension {
 		position: relative;
 		right: 10px;

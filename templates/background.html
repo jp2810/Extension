@@ -18,7 +18,16 @@
 								global_response=response;
 								total_count=response.final_results.length;
 								total_count-=1;
-								show_keyword(0,3);
+								if(total_count>=4)
+								{
+									show_keyword(0,3);
+									count=3;
+								}
+								else
+								{
+									show_keyword(0,total_count-1);
+									count = total_count-1;
+								}
 					  		}
 				  	);	
 		});
@@ -28,7 +37,6 @@
 			alert(i);
 			chrome.tabs.executeScript(null,{code:"$('p#keyword"+(i%4+1)+"').text('"+global_response.final_results[i].keyword+"');"});			//W
 			print_res_of_kwd(i);
-			count=count+1;
 		}	
 		//if less than four keyword are displayed then fill other with blank	
 		if(end-start<3)
@@ -61,34 +69,37 @@
 					if(total_count-count==1)	
 					{
 						flag=1;
+						alert("no more keyword...");
 					}
 					else
 					{
 						show_keyword(count+1,total_count-1);
+						count = total_count-1;
 					}
 				}
 				else
 				{
 					//more than four keyword are remain
 					show_keyword(count+1,count+4)
+					count+=4;
 				}
 			}
 		}
 		else
 		{
 			//for prev button
-			count-=count%4+1
-			if(count<3)
+			if(count>3)
 			{
-				//total keyword are less than four
-				show_keyword(0,count);
-				count-=total_count;
+				//more than 4 keyword are available
+				flag=0;
+				count-=count%4+1
+				show_keyword(count-3,count);
 			}
 			else
 			{
-				show_keyword(count-3,count);
-				count-=4;	
-			}
+				//total keyword are less than four
+				//show_keyword(0,count);
+			}			
 		}
  	}
  	function print_res_of_kwd(index){
