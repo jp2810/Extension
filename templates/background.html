@@ -3,9 +3,8 @@
 <script type="text/javascript" src="jquery-1.4.2.js"></script>
 
 <script>
-		//global variable are declared only while reloading extension..i.e only once
-		//for dealing with count,content_script should pass count and called function will return changed count..which ll be passed next time
-		//for handling click event of next and prev button:::pass flag and count
+		//since following variable will be changed in callback function..so here declaration is sufficient..
+		//...it is working for different tab without reloading extension
 		//global variable declared
 		var count=-1,total_count=0,global_response,flag=0;
 		
@@ -28,6 +27,7 @@
 									show_keyword(0,total_count-1);
 									count = total_count-1;
 								}
+								flag = 0;
 					  		}
 				  	);	
 		});
@@ -110,10 +110,18 @@
 			//markup += "</br><li><a href="+ global_response.final_results[index].search_res[i].Url+">"+global_response.final_results[index].search_res[i].Url+"</a></li>";
 		}
 		markup += "</ul>"
+		//alert(markup);            
 		clss = "div.popup_keyword"+(index%4+1)
 		//chrome.tabs.executeScript(null,{code:"$('"+clss+"').text('');"});		
 		chrome.tabs.executeScript(null,{code:"$('"+clss+"').empty();"});		
 		chrome.tabs.executeScript(null,{code:"$('"+clss+"').append('"+markup+"');"});
+		/*
+		not working...showing blank popup due to "'"(quatation mark) in markup: remove quatation symbol from string
+		chrome.tabs.executeScript(null,{code:"$('"+clss+"').append('<ul>
+		<li><a href=http://www.blessyouboys.com/2012/1/20/2720813/what-were-your-favorite-tigers-pitchers-duels-of-2011>
+		What were your favorite Tigers' iopitchers' duels of 2011? - Bless ...</a></li>
+		<li><a href=http://en.wikipedia.org/wiki/Tiger>Tiger - Wikipedia, the free encyclopedia</a></li>
+		<li><a href=http://www.animenewsnetwork.com/interest/2011-10-18/mixi-survey/favorite-tiger-and-bunny-characters>Mixi Survey: Favorite Tiger & Bunny 		Characters - Interest - Anime ...</a></li></ul>');"});*/
 	}
 	chrome.extension.onRequest.addListener(display_next_keyword);
 </script>
