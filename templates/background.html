@@ -27,6 +27,7 @@
 									show_keyword(0,total_count-1);
 									count = total_count-1;
 								}
+								get_tweets();
 								flag = 0;
 					  		}
 				  	);	
@@ -85,7 +86,7 @@
 				}
 			}
 		}
-		else
+		else if(request.button=="prev")
 		{
 			//for prev button
 			if(count>3)
@@ -101,13 +102,18 @@
 				//show_keyword(0,count);
 			}			
 		}
+		else if(request.button=="tweets")
+		{
+			alert("showing tweets");
+		}
  	}
+ 	
  	function print_res_of_kwd(index){
 		var markup = "<ul>",clss;
 		for(i = 0; i<3 ; i++)
-		{		
-			markup += "<li><a href="+ global_response.final_results[index].search_res[i].Url+">"+global_response.final_results[index].search_res[i].Title+"</a></li>";	
-			//markup += "</br><li><a href="+ global_response.final_results[index].search_res[i].Url+">"+global_response.final_results[index].search_res[i].Url+"</a></li>";
+		{	
+			//str = str.replace(/'/g,"");       //to replace quotes in string with blank string..working properly
+			markup += "<li><a href="+ global_response.final_results[index].search_res[i].Url+">"+global_response.final_results[index].search_res[i].Title.replace(/'/g,"")+"</a></li>";
 		}
 		markup += "</ul>"
 		//alert(markup);            
@@ -115,13 +121,13 @@
 		//chrome.tabs.executeScript(null,{code:"$('"+clss+"').text('');"});		
 		chrome.tabs.executeScript(null,{code:"$('"+clss+"').empty();"});		
 		chrome.tabs.executeScript(null,{code:"$('"+clss+"').append('"+markup+"');"});
-		/*
-		not working...showing blank popup due to "'"(quatation mark) in markup: remove quatation symbol from string
-		chrome.tabs.executeScript(null,{code:"$('"+clss+"').append('<ul>
-		<li><a href=http://www.blessyouboys.com/2012/1/20/2720813/what-were-your-favorite-tigers-pitchers-duels-of-2011>
-		What were your favorite Tigers' iopitchers' duels of 2011? - Bless ...</a></li>
-		<li><a href=http://en.wikipedia.org/wiki/Tiger>Tiger - Wikipedia, the free encyclopedia</a></li>
-		<li><a href=http://www.animenewsnetwork.com/interest/2011-10-18/mixi-survey/favorite-tiger-and-bunny-characters>Mixi Survey: Favorite Tiger & Bunny 		Characters - Interest - Anime ...</a></li></ul>');"});*/
+	}
+	function get_tweets(){
+		//alert("get tweets");
+		$.getJSON("http://search.twitter.com/search.json?&q=%23Apple&rpp=3",function(result)
+		{
+			//alert("twees response : "+result);
+		});
 	}
 	chrome.extension.onRequest.addListener(display_next_keyword);
 </script>
