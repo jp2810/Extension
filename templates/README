@@ -1,0 +1,7 @@
+this branch is created for displaying popup which shows loading image when user will click on chrome extension logo...
+and then loading image will be displayed till ajax response doesn't come..
+flow of control -
+1) contentscript will be appended to web page
+2) click event handler for chrome extension in popup.html
+3) in backgroung.html, ajax request to tokenize method
+4) next and prev button
