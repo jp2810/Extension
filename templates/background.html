@@ -12,12 +12,18 @@
 		var count=-1,total_count=0,global_response,flag=0;
 		
 	  	// Called when the user clicks on the browser action.
-	  	chrome.browserAction.onClicked.addListener(function(tab) {
+	  	//chrome.browserAction.onClicked.addListener(function(tab) {
+	  	function keyword(pageurl){
+	  		//pass url of page from popup
+	  		//alert("from keyword :"+pageurl);
 			chrome.tabs.executeScript(null,{code:"$('.layout').show();"});
 			//$.getJSON('http://127.0.0.1:5000/get_keyword',{					//test
+			alert("before AJAX request to tokenize");
 			$.getJSON('http://127.0.0.1:5000/tokenize',{
-					   		url:tab.url
+					   		//url:tab.url
+					   		url:pageurl
 				  			}, function(response) {
+				  					alert("callback function of tokenize");
 									global_response=response;
 									total_count=response.final_results.length;
 									total_count-=1;
@@ -31,11 +37,15 @@
 										show_keyword(0,total_count-1);
 										count = total_count-1;
 									}
-									get_tweets();
+									//get_tweets();
 									//get_remaining_keyword_result();    //test
 									flag = 0;
-				});	
-		});
+									alert("before returning to popup.html");
+									//sendResponse({"result":"pong"});		//return to callback function of popup.html
+				});
+				alert("after AJAX request to tokenize");	
+		//});
+		}
 		
 		/*																//test
 		function get_remaining_keyword_result()
@@ -94,11 +104,12 @@
 			chrome.tabs.executeScript(null,{code:"$('"+clss+"').append('"+markup+"');"});
 		}
 		//jayesh
-		function display_next_keyword(request)
+		function display_next_keyword(button)
 		{	
 			//keyword are displayed from count to total_count-1
 			alert("count=" + count);
-			if(request.button=="next")
+			alert(button);
+			if(button=="next")
 			{
 				if(flag==1)
 				{
@@ -130,7 +141,7 @@
 					}
 				}
 			}
-			else if(request.button=="prev")
+			else if(button=="prev")
 			{
 				//for prev button
 				if(count>3)
@@ -146,7 +157,7 @@
 					//show_keyword(0,count);
 				}			
 			}
-			else if(request.button=="tweets")
+			else if(button=="tweets")
 			{
 				alert("showing tweets");
 			}
@@ -158,7 +169,23 @@
 				//alert("twees response : "+result);
 			});
 		}
-		chrome.extension.onRequest.addListener(display_next_keyword);
+		function requesthandler(request){
+			if(request.method=="showloadingimage")
+			{
+				//from background page	
+				//alert("fromback");		
+				keyword(request.url);
+				alert("after keyword call is done");
+			}
+			else
+			{
+				//from contentscript
+				//alert(request.button);
+				display_next_keyword(request.button);
+			}
+			//sendResponse({"result":"pong"});
+		}
+		chrome.extension.onRequest.addListener(requesthandler);
 </script>
 </head>
 </html>

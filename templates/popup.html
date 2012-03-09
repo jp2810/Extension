@@ -1,0 +1,22 @@
+<html>	
+	<script type="text/javascript">
+		window.addEventListener("load", windowLoaded, false);
+	  	function windowLoaded() {
+	  		chrome.tabs.getSelected(null, function(tab) {
+		       		//current_url=tab.url;
+		       		chrome.extension.sendRequest({"method": "showloadingimage","url":tab.url}, function(response) {
+					 	  // repsonse.result
+					 	  alert("In callback function from background page");
+					});
+	  		});
+		  	
+	  	}	
+	</script>
+	<body>
+		<div id="ajaxLoader">
+ 	   		<h2>Please wait</h2>
+       		<p>I'm getting my AJAX on!</p>
+ 	    </div>
+	</body>
+<html>
+
