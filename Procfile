@@ -1,1 +1,1 @@
-web: python npchunks.py
+web: python app.py
