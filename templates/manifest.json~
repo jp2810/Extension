@@ -1,15 +1,19 @@
 {
-  "name": "My First Extension",
-  "version": "1.0",
-  "description": "The first extension that I made.",
-  "browser_action": {
-    "default_icon": "logo.png",
-    "popup": "popup.html"
-  },
-  "permissions": [
-  "tabs",
-    "http://*/*",
-    "https://*/*"
-  ]
+	  "name": "A browser action with no icon that makes the page red",
+	  "version": "1.0",
+	  "background_page": "background.html",
+	  "permissions": [
+		"tabs", "http://*/*","file:///*/*"
+	  ],
+	  "browser_action":
+	  {
+	  	"default_icon": "yourIcon16.png",
+	  	"default_title": "browser action title"
+	  },
+	"content_scripts":[{
+      "js":["jquery-1.4.2.js",
+      	"contentScript.js"],
+      "matches": ["http://*/*",
+      	"https://*/*","file:///*/*"]
+  }]
 }
-

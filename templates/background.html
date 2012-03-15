@@ -1,0 +1,189 @@
+<!-- 1)change path from tokenize to getkeyword 2)show loading image till XHR request does not complete
+	3)get result containg all keyword and result of first 4 keyword
+-->>
+<html>
+<head>
+<script type="text/javascript" src="jquery-1.4.2.js"></script>
+
+<script>
+		//since following variable will be changed in callback function..so here declaration is sufficient..
+		//...it is working for different tab without reloading extension
+		//global variable declared
+		var count=-1,total_count=0,global_response,flag=0;
+		
+	  	// Called when the user clicks on the browser action.
+	  	chrome.browserAction.onClicked.addListener(function(tab) {
+			chrome.tabs.executeScript(null,{code:"$('.layout').show();"});
+			$.getJSON('http://127.0.0.1:5000/tokenize',{
+					   		url:tab.url
+				  			}, function(response) {
+									global_response=response;
+									total_count=response.final_results.length;
+									total_count-=1;
+									if(total_count>=4)
+									{
+										show_keyword(0,3);
+										count=3;
+									}
+									else
+									{
+										show_keyword(0,total_count-1);
+										count = total_count-1;
+									}
+									
+									get_remaining_keyword_result();    //test
+									flag = 0;
+				});	
+		});
+		
+															//test
+		function get_remaining_keyword_result()
+		{
+			/*
+			//get list of keyword
+			var keyword=new array();																			//test
+			for(var i=4;i<total_count;i++)								//passing keywords next to 4th keyword
+			{
+				keyword[i] = global_response.final_results[i].keyword;
+			}
+			*/
+			
+				$.getJSON('http://127.0.0.1:5000/get_remaining', function(response) {
+							global_response=response;
+							total_count=response.final_results.length;
+							total_count-=1;
+							/*
+							for(var i=4;i<total_count;i++)					
+							{
+								global_response.final_result[i].search_res[i].Url=response.final_result[i].search_res[i].Url
+								global_response.final_result[i].search_res[i].Url=response.final_result[i].search_res[i].Url	
+							}
+							*/			  			
+				});
+			
+		}		
+		function show_keyword(start,end){	
+			for(var i=start;i<=end && i<total_count;i++)
+			{
+				alert(i);
+				chrome.tabs.executeScript(null,{code:"$('p#keyword"+(i%4+1)+"').text('"+global_response.final_results[i].keyword+"');"});			//W
+				print_res_of_kwd(i);
+				show_tweets(global_response.final_results[i].keyword);
+			}	
+			//if less than four keyword are displayed then fill other with blank	
+			if(end-start<3)
+			{
+				for(var i=end-start+1;i<=3;i++)
+				{
+					chrome.tabs.executeScript(null,{code:"$('p#keyword"+(i+1)+"').empty();"});
+					chrome.tabs.executeScript(null,{code:"$('div.popup_keyword"+(i+1)+"').empty();"});		
+				}
+			}
+		}	 
+		
+	 	function print_res_of_kwd(index)
+	 	{
+			var markup = "<ul>",clss;
+			for(i = 0; i<3 ; i++)
+			{	
+				//str = str.replace(/'/g,"");       //to replace quotes in string with blank string..working properly
+				markup += "<li><a href="+ global_response.final_results[index].search_res[i].Url+">"+global_response.final_results[index].search_res[i].Title.replace(/'/g,"")+"</a></li>";
+			}
+			markup += "</ul>"
+			//alert(markup);            
+			clss = "div.popup_keyword"+(index%4+1)
+			//chrome.tabs.executeScript(null,{code:"$('"+clss+"').text('');"});		
+			chrome.tabs.executeScript(null,{code:"$('"+clss+"').empty();"});		
+			chrome.tabs.executeScript(null,{code:"$('"+clss+"').append('"+markup+"');"});
+			 			
+			if (global_response.final_results[index].film != "empty")
+			{
+            					
+        	var markup_video = '<object height="200" id="grelated-id-yt-player" type="application/x-shockwave-flash" width="200"><param name="movie"              value="http://	www.youtube.com/v/MsuXnUiwG-Q?enablejsapi=1&amp;version=3&amp;hl=en_US&amp;rel=0"><param name="allowFullScreen" value="true"><param name="allowscriptaccess" value="always"><embed src="http://www.youtube.com/v/MsuXnUiwG-Q?enablejsapi=1&amp;version=3&amp;hl=en_US&amp;rel=0" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" height="200" width="200"></object>'
+			//chrome.tabs.executeScript(null,{code:"$('"+clss+"').text('');"});		
+			chrome.tabs.executeScript(null,{code:"$('"+clss+"').append('"+markup_video+"');"});
+			
+			}	
+		
+		}
+		
+		function display_next_keyword(request)
+		{	
+			//keyword are displayed from count to total_count-1
+			alert("count=" + count);
+			if(request.button=="next")
+			{
+				if(flag==1)
+				{
+					//keyword are exhausted
+					alert("no more keyword...");
+				}
+				else
+				{
+					//keywords are yet to be displayed
+					if(total_count-count<6)
+					{
+						//less than four keyword are remaines...make flag=1
+						if(total_count-count==1)	
+						{
+							flag=1;
+							alert("no more keyword...");
+						}
+						else
+						{
+							show_keyword(count+1,total_count-1);
+							count = total_count-1;
+						}
+					}
+					else
+					{
+						//more than four keyword are remain
+						show_keyword(count+1,count+4)
+						count+=4;
+					}
+				}
+			}
+			else if(request.button=="prev")
+			{
+				//for prev button
+				if(count>3)
+				{
+					//more than 4 keyword are available
+					flag=0;
+					count-=count%4+1
+					show_keyword(count-3,count);
+				}
+				else
+				{
+					//total keyword are less than four
+					//show_keyword(0,count);
+				}			
+			}
+			else if(request.button=="tweets")
+			{
+				alert("showing tweets");
+			}
+	 	}
+	 	function show_tweets(kwd)
+		{
+			var shtml = '';	
+			$.getJSON("http://search.twitter.com/search.json?&q=%23'"+kwd+"'&lang=en&rpp=2",function(jsonData)
+			{
+				var results = jsonData.results;
+				//alert(jsonData.query);
+				if(results){
+				// if there are results (it should be an array), loop through it with a jQuery function
+		 			$.each(results, function(index,value)
+					{
+			 			shtml += "<p><span>" + value.from_user + "</span>: " +
+			 			value.text + "<span>" + value.created_at + "</span></p>";
+	 			   });
+
+				}			
+				chrome.tabs.executeScript(null,{code:"$('div.popup_keyword5').append('"+shtml+"');"});
+			});
+		}
+		chrome.extension.onRequest.addListener(display_next_keyword);
+</script>
+</head>
+</html>

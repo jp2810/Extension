@@ -1,0 +1,131 @@
+	.layout{
+		position: fixed;
+		bottom: 1%;
+		width: 1347px;
+		background-color: black;
+		height: 70px;
+	}
+	.close-image{
+		display: block;
+		float:right;
+		position:relative;
+		top:-10px;
+		right: -10px;
+		height: 20px;
+	}​
+	.mextension {
+		position: relative;
+		right: 10px;
+		left: 15px;
+		background-color: beige;
+		width: 1314px;
+		height: 70px;
+	}
+	#prevkeyword{
+		position: absolute;
+		left: 6px;
+		top: 5px;
+		width: 63px;
+		background-color: white;
+		height: 60px;
+	}
+	.keyword1{
+		position: absolute;
+		left: 78px;
+		top: 5px;
+		width: 220px;
+		background-color: white;
+		height: 60px;
+	}
+	.keyword2{
+		position: absolute;
+		left: 300px;
+		top: 5px;
+		background-color: cyan;
+		width: 220px;
+		height: 60px;
+	}
+	.keyword3{
+		position: absolute;
+		left: 522px;
+		top: 5px;
+		background-color: white;
+		width: 220px;
+		height: 60px;
+	}	
+	.keyword4{
+		position: absolute;
+		left: 746px;
+		top: 5px;
+		background-color: cyan;
+		width: 220px;
+		height: 60px;
+	}
+	.keyword5{
+		position: absolute;
+		left: 967px;
+		top: 5px;
+		background-color: white;
+		width: 220px;
+		height: 60px;
+	}
+	#nextkeyword{
+		position: absolute;
+		left: 1224px;
+		top: 5px;
+		background-color: white;
+		width: 71px;
+		height: 60px;
+	}
+	#tweets{
+		position: absolute;
+		left: 1324px;
+		top: 5px;
+		background-color: white;
+		width: 71px;
+		height: 60px;
+	}
+	.popup_keyword1 {
+		background-color: white;
+		width: 380px;
+		height: 200px;
+		left: 0px;
+		bottom: 80px;
+		position: fixed;
+		border-top: 3px solid beige;
+		border-right: 3px solid beige;
+		border-bottom: 3px solid beige;
+		border-left: 3px solid beige; 
+	}
+	
+	.popup_keyword2 {
+		background-color: white;
+		width: 380px;
+		height: 200px;
+		left: 280px;
+		bottom: 80px;
+		position: fixed;
+		border-width: .2em; 
+		border-color: beige; 
+	}
+	.popup_keyword3 {
+		background-color: white;
+		width: 380px;
+		height: 200px;
+		left: 582px;
+		bottom: 80px;
+		position: fixed;
+		border-width: .2em; 
+		border-color: beige; 
+	}
+	.popup_keyword4 {
+		background-color: white;
+		width: 380px;
+		height: 200px;
+		left: 877px;
+		bottom: 80px;
+		position: fixed;
+		border-width: .2em; 
+		border-color: beige; 
+	}
+
