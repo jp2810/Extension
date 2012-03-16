@@ -10,7 +10,7 @@ $('<div class="popup"><div class="popup_keyword1"></div><div class="popup_keywor
 
 
 //layout of bottom extension
-$('<div class="layout"><img class="close-image" src="http://residentialsearch.savills.co.uk/Content/Images/icon_close.png" /><div class="mextension"><div class="keyword1"><p id="keyword1">My extension</p></div><div class="keyword2"><p id="keyword2">video</p></div><div class="keyword3"><p id="keyword3">position</p></div><div class="keyword4"><p id="keyword4">person</p></div><div class="keyword5"><p  id="keyword5">Tweets</p></div><button type="button" id="nextkeyword">Next</button><button type="button" id="rifuprevkeyword" style="position: absolute; left: 1224px;top: 5px; background-color: white; width: 43px;height: 26px;">Prev</button></div></div>').appendTo('body');
+$('<div class="layout"><img class="close-image" src="http://residentialsearch.savills.co.uk/Content/Images/icon_close.png" /><div class="mextension"><div class="keyword1"><p id="keyword1">My extension</p></div><div class="keyword2"><p id="keyword2">video</p></div><div class="keyword3"><p id="keyword3">position</p></div><div class="keyword4"><p id="keyword4">person</p></div><div class="keyword5"><p id="keyword5">Tweets</p></div><button type="button" id="rifuprevkeyword" style="position: absolute; left: 1224px;top: 5px; background-color: white; width: 43px;height: 26px;">Prev</button><button type="button" id="rifunextkeyword">Next</button></div></div>').appendTo('body');
 
 $('.layout').hide();
 $('.popup_keyword1').hide();
@@ -19,6 +19,20 @@ $('.popup_keyword3').hide();
 $('.popup_keyword4').hide();
 $('.popup_keyword5').hide();
 
+$(':button').click(function(){
+	alert("button click");
+	var s=this.id;
+	if(s=="rifuprevkeyword")
+	{
+		alert("prev button click");
+		chrome.extension.sendRequest({"button": "prev"});
+	}
+	else if(s=="rifunextkeyword")
+	{
+		alert("next button click");
+		chrome.extension.sendRequest({"button": "next"});
+	}
+});
 $('.keyword1').click(function(){
 	//alert("in onclick function of keyword1");
 	$('.popup_keyword1').toggle();
@@ -40,14 +54,6 @@ $('.keyword5').click(function(){
 	//alert("in onclick function of keyword4");
 	$('.popup_keyword5').toggle();
 });
-$('#rifuprevkeyword').click(function(){
-	alert("button click");
-	chrome.extension.sendRequest({"button": "prev"});
-});
-$('#nextkeyword').click(function(){
-	alert("button click");
-	chrome.extension.sendRequest({"button": "next"});
-});
 $(".close-image").click(function(){
    	$(this).parent().hide();
 	$(".popup_keyword1").hide();
@@ -58,6 +64,17 @@ $(".close-image").click(function(){
 
 //1)button click 2)call fuction from background.html  sendrequest/onrequest
 
+
+/*			//w
+$('#rifuprevkeyword').click(function(){
+	alert("prev button click");
+	chrome.extension.sendRequest({"button": "prev"});
+});
+$('#rifunextkeyword').click(function(){
+	alert("next button click");
+	chrome.extension.sendRequest({"button": "next"});
+});
+*/
 /*                   //W
 $(':button').click(function(){
 	alert("button click");
