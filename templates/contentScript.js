@@ -10,7 +10,7 @@ $('<div class="popup"><div class="popup_keyword1"></div><div class="popup_keywor
 
 
 //layout of bottom extension
-$('<div class="layout"><img class="close-image" src="http://residentialsearch.savills.co.uk/Content/Images/icon_close.png" /><div class="mextension"><div class="keyword1"><p id="keyword1">My extension</p></div><div class="keyword2"><p id="keyword2">video</p></div><div class="keyword3"><p id="keyword3">position</p></div><div class="keyword4"><p id="keyword4">person</p></div><div class="keyword5"><p  id="keyword5">Tweets</p></div><button type="button" id="nextkeyword">Next</button><button type="button" id="rifuprevkeyword">Prev</button><button type="button" id="tweets">tweets</button></div></div>').appendTo('body');
+$('<div class="layout"><img class="close-image" src="http://residentialsearch.savills.co.uk/Content/Images/icon_close.png" /><div class="mextension"><div class="keyword1"><p id="keyword1">My extension</p></div><div class="keyword2"><p id="keyword2">video</p></div><div class="keyword3"><p id="keyword3">position</p></div><div class="keyword4"><p id="keyword4">person</p></div><div class="keyword5"><p  id="keyword5">Tweets</p></div><button type="button" id="nextkeyword">Next</button><button type="button" id="rifuprevkeyword" style="position: absolute; left: 1224px;top: 5px; background-color: white; width: 43px;height: 26px;">Prev</button></div></div>').appendTo('body');
 
 $('.layout').hide();
 $('.popup_keyword1').hide();
@@ -40,17 +40,13 @@ $('.keyword5').click(function(){
 	//alert("in onclick function of keyword4");
 	$('.popup_keyword5').toggle();
 });
-$('#prevkeyword').click(function(){
-	//alert("button click");
+$('#rifuprevkeyword').click(function(){
+	alert("button click");
 	chrome.extension.sendRequest({"button": "prev"});
 });
 $('#nextkeyword').click(function(){
-	//alert("button click");
+	alert("button click");
 	chrome.extension.sendRequest({"button": "next"});
-});
-$('#tweets').click(function(){
-	//alert("button click");
-	chrome.extension.sendRequest({"button": "tweets"});
 });
 $(".close-image").click(function(){
    	$(this).parent().hide();

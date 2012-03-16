@@ -6,31 +6,6 @@
 		right: -10px;
 		height: 20px;
 	}​
-	
-	#prevkeyword{
-		position: absolute;
-		left: 1224px;
-		top: 5px;
-		width: 43px;
-		background-color: white;
-		height: 26px;
-	}
-	#nextkeyword{
-		position: absolute;
-		left: 1224px;
-		top: 43px;
-		background-color: white;
-		width: 43px;
-		height: 26px;
-	}
-	#tweets{
-		position: absolute;
-		left: 1324px;
-		top: 5px;
-		background-color: white;
-		width: 71px;
-		height: 60px;
-	}
 	.layout{
 		position: fixed;
 		bottom: 1%;
