@@ -20,16 +20,16 @@ $('.popup_keyword4').hide();
 $('.popup_keyword5').hide();
 
 $(':button').click(function(){
-	alert("button click");
+	//alert("button click");
 	var s=this.id;
 	if(s=="rifuprevkeyword")
 	{
-		alert("prev button click");
+		//alert("prev button click");
 		chrome.extension.sendRequest({"button": "prev"});
 	}
 	else if(s=="rifunextkeyword")
 	{
-		alert("next button click");
+		//alert("next button click");
 		chrome.extension.sendRequest({"button": "next"});
 	}
 });

@@ -40,7 +40,7 @@ def search_web(keywords,prev_results,start,end):
 	
         #for n in l.neighbours:
         #    str1 = str1 + " " + n.word
-        category = "cat"
+        category = ""
         search_query = str1
 	#search_query = str1
         #print "search_query::::::::" + str1
