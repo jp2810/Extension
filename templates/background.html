@@ -94,8 +94,8 @@
 			clss = "div.popup_keyword"+(index%4+1)
 			//chrome.tabs.executeScript(null,{code:"$('"+clss+"').text('');"});		
 			chrome.tabs.executeScript(null,{code:"$('"+clss+"').empty();"});		
-			//chrome.tabs.executeScript(null,{code:"$('"+clss+"').append('"+markup+"');"});
-			 			
+			chrome.tabs.executeScript(null,{code:"$('"+clss+"').append('"+markup+"');"});
+			 	/*		
 			if (global_response.final_results[index].film != "empty")
 			{
 				var video_url = global_response.final_results[index].film[0];
@@ -105,7 +105,7 @@
 		    	var markup_video = '<object height="200" id="grelated-id-yt-player" type="application/x-shockwave-flash" width="200"><param name="movie"           value="http://www.youtube.com/v/'+video_substring+'?enablejsapi=1&amp;version=3&amp;hl=en_US&amp;rel=0"><param name="allowFullScreen" value="true"><param name="allowscriptaccess" value="always"><embed src="http://www.youtube.com/v/'+video_substring+'?enablejsapi=1&amp;version=3&amp;hl=en_US&amp;rel=0" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" height="200" width="200"></object>'
 			
 				chrome.tabs.executeScript(null,{code:"$('"+clss+"').append('"+markup_video+"');"});		
-			}
+			}*/
 		}
 		
 		function display_next_keyword(request)
@@ -164,6 +164,7 @@
 			{
 				alert("showing tweets");
 			}
+			//sendResponse({});
 	 	}
 	 	function show_tweets(kwd)
 		{
