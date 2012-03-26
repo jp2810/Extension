@@ -104,10 +104,11 @@
 		left: 33px;
 		bottom: 80px;
 		position: fixed;
-		border-top: 3px solid beige;
-		border-right: 3px solid beige;
-		border-bottom: 3px solid beige;
-		border-left: 3px solid beige;
+		border-top: 1px solid black;
+		border-right: 1px solid black;
+		border-bottom: 1px solid black;
+		border-left: 1px solid black;
+		overflow:scroll;		 
 	}
 	
 	.popup_keyword2 {
@@ -117,10 +118,11 @@
 		left: 289px;
 		bottom: 80px;
 		position: fixed;
-		border-top: 3px solid beige;
-		border-right: 3px solid beige;
-		border-bottom: 3px solid beige;
-		border-left: 3px solid beige;
+		border-top: 1px solid black;
+		border-right: 1px solid black;
+		border-bottom: 1px solid black;
+		border-left: 1px solid black;
+		overflow:scroll;		 
 	}
 	.popup_keyword3 {
 		background-color: white;
@@ -129,10 +131,13 @@
 		left: 545px;
 		bottom: 80px;
 		position: fixed;
-		border-top: 3px solid beige;
-		border-right: 3px solid beige;
-		border-bottom: 3px solid beige;
-		border-left: 3px solid beige;	}
+		border-top: 1px solid black;
+		border-right: 1px solid black;
+		border-bottom: 1px solid black;
+		border-left: 1px solid black;	
+		overflow:scroll;		 
+	}
+		
 	.popup_keyword4 {
 		background-color: white;
 		width: 253px;
@@ -140,10 +145,11 @@
 		left: 798px;
 		bottom: 80px;
 		position: fixed;
-		border-top: 3px solid beige;
-		border-right: 3px solid beige;
-		border-bottom: 3px solid beige;
-		border-left: 3px solid beige;
+		border-top: 1px solid black;
+		border-right: 1px solid black;
+		border-bottom: 1px solid black;
+		border-left: 1px solid black;
+		overflow:scroll;		 
 	}
 	.popup_keyword5 {
 		background-color: white;
@@ -152,8 +158,9 @@
 		left: 1051px;
 		bottom: 80px;
 		position: fixed;
-		border-top: 3px solid beige;
-		border-right: 3px solid beige;
-		border-bottom: 3px solid beige;
-		border-left: 3px solid beige;
+		border-top: 1px solid black;
+		border-right: 1px solid black;
+		border-bottom: 1px solid black;
+		border-left: 1px solid black;
+		overflow:scroll;		 
 	}

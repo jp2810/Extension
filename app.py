@@ -26,11 +26,12 @@ def rifu():
     print datetime.time(now.hour, now.minute, now.second)
    
     url = request.args.get('url', 0, type=str)
-    
+    tab_id=request.args.get('tab_id', 0, type=int)
+    #print(tab_id);
     #SCRAPE
     print "URL:"+url
     text = scrape.scrapePage(url)
-    print text
+    #print text
 
     #GET KEYWORDS
     obj = get_keywords.proper_noun()
@@ -46,10 +47,10 @@ def rifu():
     pre_append = results
    
 
-    results +='{"test":"dummy_res"}' #Add dummy result for comma after last result
+    results +='{"tab_id":'+str(tab_id)+'}' #Add dummy result for comma after last result
     results += "]}"
 
-    print "\n\ntokenize :\n\n"+results
+    #print "\n\ntokenize :\n\n"+results
     return results
 
 
@@ -67,7 +68,7 @@ def get_rem_results():
     results +='{"test":"dummy_res"}' #Add dummy result for comma after last result
     results += "]}"
 
-    print "\n\nget remaining result :\n\n"+results
+    #print "\n\nget remaining result :\n\n"+results
     print "\n\nDONE HERE..PLEASE SEE THE BROWSER"
     return results
 
