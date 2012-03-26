@@ -24,13 +24,15 @@
     				else
     				{
     					alert("calling tokenize method");
+    					chrome.tabs.executeScript(tab.id,{code:"$('.layout').slideDown();"});   //T
     					$.getJSON('http://127.0.0.1:5000/tokenize',{
 					   		url:tab.url,tab_id:tab.id
 				  			}, function(response) {
-				  				alert("sending resonse to contentScript from tokenize");
 				  				tab_id=response.final_results[4].tab_id;
+				  				alert("sending resonse to contentScript from tokenize");
+				  				chrome.tabs.executeScript(null,{code:"$('.ball1').fadeOut();$('.mextension').show();"});  //T
 				  				chrome.tabs.sendRequest(tab_id, {"tab_id":tab_id,"method":"tokenize","response": response}, function(response) {
-    										alert("resonse from contentScript in "+response.farewell);
+    										alert("resonse from contentScript in tokenize"+response.farewell);
     										get_remaining_keyword_result();      										
     										//console.log(response.farewell);
     							});				
