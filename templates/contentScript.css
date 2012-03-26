@@ -38,6 +38,7 @@
 		border-bottom: 1px solid gray;
 		border-left: 1px solid gray; 
 		border-radius:10px 40px;
+		z-index: 9999999;
 	}
 
 	.mextension {
@@ -201,7 +202,7 @@ p#keyword4{
 		border-bottom: 2px solid gray;
 		border-left: 2px solid gray;
 		overflow:scroll;			
-		
+		z-index: 999999;
 	}
 	.popup_keyword1 {
 		background: whitesmoke;
@@ -217,7 +218,7 @@ p#keyword4{
 		border-bottom: 2px solid gray;
 		border-left: 2px solid gray;
 		overflow:scroll;		 
-		
+		z-index: 999999;
 	}
 	.popup_keyword2 {
 		background:whitesmoke;
@@ -233,7 +234,8 @@ p#keyword4{
 		border-right: 3px solid gray;
 		border-bottom: 3px solid gray;
 		border-left: 3px solid gray;
-		overflow:scroll;  
+		overflow:scroll;
+		z-index: 999999;  
 	}
 	.popup_keyword3 {
 		background: whitesmoke;
@@ -250,6 +252,7 @@ p#keyword4{
 		border-bottom: 3px solid gray;
 		border-left: 3px solid gray; 		
 		overflow:scroll;
+		z-index: 999999;
 	}
 	.popup_keyword4 {
 		background: whitesmoke;
@@ -267,6 +270,7 @@ p#keyword4{
 		border-left: 3px solid gray; 
 		background-repeat:repeat-x;
 		overflow:scroll;
+		z-index: 999999;
 	}
 	
 	.popup_keyword5 {
@@ -284,6 +288,7 @@ p#keyword4{
 		border-left: 3px solid gray; 
 		background-repeat:repeat-x;
 		overflow:scroll;
+		z-index: 999999;
 	}
 
 	.twitter{

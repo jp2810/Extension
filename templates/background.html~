@@ -17,13 +17,13 @@
 	  	// Called when the user clicks on the browser action.
 	  	chrome.browserAction.onClicked.addListener(function(tab) {
 	  		alert(tab.id);
-			chrome.tabs.executeScript(tab.id,{code:"$('.layout').show();"});
 			chrome.tabs.sendRequest(tab.id, {"method":"isloaded"}, function(response) {
     				alert("resonse from contentScript"+response.farewell);
     				if(response.farewell=="goodbye"){}
     				else
     				{
     					alert("calling tokenize method");
+    					chrome.tabs.executeScript(tab.id,{code:"$('.layout').show();"});
     					chrome.tabs.executeScript(tab.id,{code:"$('.layout').slideDown();"});   //T
     					$.getJSON('http://127.0.0.1:5000/tokenize',{
 					   		url:tab.url,tab_id:tab.id
