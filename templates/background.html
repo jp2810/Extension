@@ -19,11 +19,11 @@
 	  		alert(tab.id);
 			chrome.tabs.sendRequest(tab.id, {"method":"isloaded"}, function(response) {
     				alert("resonse from contentScript"+response.farewell);
+    				chrome.tabs.executeScript(tab.id,{code:"$('.layout').show();"});
     				if(response.farewell=="goodbye"){}
     				else
     				{
     					alert("calling tokenize method");
-    					chrome.tabs.executeScript(tab.id,{code:"$('.layout').show();"});
     					chrome.tabs.executeScript(tab.id,{code:"$('.layout').slideDown();"});   //T
     					$.getJSON('http://127.0.0.1:5000/tokenize',{
 					   		url:tab.url,tab_id:tab.id
@@ -182,7 +182,7 @@
 	 	function show_tweets(request)
 		{
 			var shtml = '';	
-			var kwd=request.keywords;
+			var kwd=request.keyword;
 			$.getJSON("http://search.twitter.com/search.json?&q=%23'"+kwd+"'&lang=en&rpp=2",function(jsonData)
 			{
 				var results = jsonData.results;

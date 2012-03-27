@@ -274,17 +274,19 @@ function print_res_of_kwd(index)
 			//chrome.tabs.executeScript(tab_id,{code:"$('"+clss+"').text('');"});		
 			$(clss).empty();
 			$(clss).append(markup);
-			/*			
-			if (response.final_results[index].film != "empty")
+			if (response.final_results[index].film != " ")
 			{
-				var video_url = response.final_results[index].film[0];
-				var pos = video_url.search("v=");
-				var video_substring = video_url.substring(pos+2,pos+2+11);
-		        alert(video_substring);					
-		    	var markup_video = '<object height="200" id="grelated-id-yt-player" type="application/x-shockwave-flash" width="200"><param name="movie"           value="http://www.youtube.com/v/'+video_substring+'?enablejsapi=1&amp;version=3&amp;hl=en_US&amp;rel=0"><param name="allowFullScreen" value="true"><param name="allowscriptaccess" value="always"><embed src="http://www.youtube.com/v/'+video_substring+'?enablejsapi=1&amp;version=3&amp;hl=en_US&amp;rel=0" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" height="200" width="200"></object>'
 			
-				chrome.tabs.executeScript(tab_id,{code:"$('"+clss+"').append('"+markup_video+"');"});		
-			}*/
+			var video_url = response.final_results[index].film[0];
+			var pos = video_url.search("v=");
+			var video_substring = video_url.substring(pos+2,pos+2+11);
+        //    alert(video_substring);					
+        	var markup_video = '<object height="200" id="grelated-id-yt-player" type="application/x-shockwave-flash" width="200"><param name="movie"              value="http://www.youtube.com/v/'+video_substring+'?enablejsapi=1&amp;version=3&amp;hl=en_US&amp;rel=0"><param name="allowFullScreen" value="true"><param name="allowscriptaccess" value="always"><embed src="http://www.youtube.com/v/'+video_substring+'?enablejsapi=1&amp;version=3&amp;hl=en_US&amp;rel=0" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" height="200" width="200"></object>'
+			
+			$(clss).append(markup_video);
+			
+			}	
+
 		}
 		
 //1)button click 2)call fuction from background.html  sendrequest/onrequest

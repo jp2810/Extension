@@ -55,11 +55,11 @@ class getnearbywords:
         #print clean_raw
         return clean_raw
    
-    def get_words_from_proximity(self,keyword_list,text):  #think of how to get nouns from sentence only... !!
+    def get_words_from_proximity(self,keywords,text):  #think of how to get nouns from sentence only... !!
         #create object of doc_frequency
 
         doc_freq_obj = doc_freq_class.context()
-    	
+    	#see if processing can be reduced
         tokens = nltk.word_tokenize(text)
         #print "tokens:"
         #print tokens
@@ -75,16 +75,7 @@ class getnearbywords:
         df_cnt = 0
 
         print "keywords going to loop",
-        print keyword_list
-        
-        keywords=[]
-        for k in keyword_list:
-            kw = nltk.word_tokenize(k)
-            keywords.append(kw)
-            
-        print "keywords"
         print keywords
-
         for kw in keywords:
             print "keyword::::::::",
             print kw
@@ -104,7 +95,7 @@ class getnearbywords:
             #print "IN KWD LOOP."
             print "offset",
             print c.offsets(first_word)
-            doc_freq.append(document_frequency(kw))
+            
             no_of_times = 0
             for offset in c.offsets(first_word):
                 print kw
@@ -126,7 +117,7 @@ class getnearbywords:
                        	break 
                     j = j + 1
                 if nomatch == 0:
-                    
+                    doc_freq.append(document_frequency(kw))
                     #print "matched kwd",
                     #print tokens[offset:offset+j-1]
                     #print tokens[offset-5:offset+5]
@@ -169,7 +160,7 @@ class getnearbywords:
                         #doc_freq[df_cnt].neighbours[k].freq_word = fd1[context_vectors[CV_cnt].keyword]
                         doc_freq[df_cnt].neighbours[k].find_doc_freq(doc_freq[df_cnt].keyword)
                         k = k + 1
-
+                    #TODO = normalize
                     doc_freq[df_cnt].neighbours.sort(key=lambda x: x.freq_together, reverse=True)
                     if doc_freq[df_cnt].cnt > 5:
                         doc_freq[df_cnt].neighbours = doc_freq[df_cnt].neighbours[:5]        #take 10 neighbours with highest weight
@@ -185,14 +176,13 @@ class getnearbywords:
                         print m.word,
                         print "\n"
                         #k += 1
+                    
+                    
+                    df_cnt = df_cnt + 1
                 no_of_times = no_of_times + 1
                 if no_of_times>=2:
                     break
-    
-            #import pdb;pdb.set_trace();        
-            df_cnt = df_cnt + 1
         #results = search_web(doc_freq)
-        print doc_freq
         return doc_freq
 
 
@@ -204,9 +194,8 @@ class getnearbywords:
 
 #def main():
 #    print "\nIN THE MAIN"
- #   obj = context()
-  #  text = obj.scrape(sys.argv[1])
-    
+#    obj = getnearbywords()
+#    #text = obj.scrape(sys.argv[1])
 #    #print text
 #    obj.do_web_search()
 

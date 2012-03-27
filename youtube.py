@@ -16,27 +16,30 @@ class youtube:
 
 	def SearchAndPrint(self,kwd):
 		
-		yt_service = gdata.youtube.service.YouTubeService()
-		query = gdata.youtube.service.YouTubeVideoQuery()
-		query.vq = kwd    #search query
-		query.orderby = 'relevance'
-		query.racy = 'exclude'
-		query.max_results = '2'
-		query.start_index = '1'
+		try:
+			yt_service = gdata.youtube.service.YouTubeService()
+			query = gdata.youtube.service.YouTubeVideoQuery()
+			query.vq = kwd    #search query
+			query.orderby = 'relevance'
+			query.racy = 'exclude'
+			query.max_results = '2'
+			query.start_index = '1'
 		#prettyprint = True 
-		feed = yt_service.YouTubeQuery(query)
+			feed = yt_service.YouTubeQuery(query)
 
-		print 'got feed'
+			print 'got feed'
 
-		for entry in feed.entry:
+			for entry in feed.entry:
 		#PrintEntryDetails(entry)
-			print "\n\n entry:"
-			print entry.title
+			#print "\n\n entry:"
+			#print entry.title
 		#pprint (vars(entry.link[0]))
-			self.video_links.append(entry.link[0].href)
-			print entry.link[0].href
-			print 'in print function'
-		return self.video_links
+				self.video_links.append(entry.link[0].href)
+			#print entry.link[0].href
+			#print 'in print function'
+			return self.video_links
+		except Exception:
+			print "ERROR IN YOUTUBE"
 
 
 

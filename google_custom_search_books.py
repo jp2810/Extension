@@ -10,15 +10,17 @@ class search:
 		search_query=search_query.replace(' ','+')
 		#search_query="harry+potter"
 		#search_query = ' '.join(kw)
-		data = urllib2.urlopen('https://www.googleapis.com/customsearch/v1?key=AIzaSyBdGY-23XisY8ZwOuvdnseGBbFIndd3oYs&cx=008016317575559464792:m0_rq_ajn8g&q='+search_query+'&highrange=1&start=1')
-		data = json.load(data)
+		try:
+			data = urllib2.urlopen('https://www.googleapis.com/customsearch/v1?key=AIzaSyDPc6ocjFyiddxMc_pQNxGtnDM-P8634NU&cx=016488514495467573913:wbaw7mxdja8&q='+search_query+'&highrange=1&start=1')
+			data = json.load(data)
 #pprint.PrettyPrinter(indent=4).pprint(data['items'][0])
-                try:
+                
                         for item in data['items']:
-                                print "\n\n"
-                                print item['title']
-                                print item['snippet']
-                                print item['link']
+				pass
+                                #print "\n\n"
+                                #print item['title']
+                                #print item['snippet']
+                                #print item['link']
                 except Exception:
                         pass
 		return data	
