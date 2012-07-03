@@ -64,7 +64,7 @@ def rifu():
     results +='{"tab_id":'+str(tab_id)+'}' #Add dummy result for comma after last result
     results += "]}"
 
-    #print results
+    print results
     return results
 
 

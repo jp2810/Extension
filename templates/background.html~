@@ -16,23 +16,23 @@
 		
 	  	// Called when the user clicks on the browser action.
 	  	chrome.browserAction.onClicked.addListener(function(tab) {
-	  		alert(tab.id);
+	  		//alert(tab.id);
 			chrome.tabs.sendRequest(tab.id, {"method":"isloaded"}, function(response) {
-    				alert("resonse from contentScript"+response.farewell);
+    				//alert("resonse from contentScript"+response.farewell);
+    				chrome.tabs.executeScript(tab.id,{code:"$('.layout').show();"});
     				if(response.farewell=="goodbye"){}
     				else
     				{
-    					alert("calling tokenize method");
-    					chrome.tabs.executeScript(tab.id,{code:"$('.layout').show();"});
+    					//alert("calling tokenize method");
     					chrome.tabs.executeScript(tab.id,{code:"$('.layout').slideDown();"});   //T
     					$.getJSON('http://127.0.0.1:5000/tokenize',{
 					   		url:tab.url,tab_id:tab.id
 				  			}, function(response) {
 				  				tab_id=response.final_results[4].tab_id;
-				  				alert("sending resonse to contentScript from tokenize");
-				  				chrome.tabs.executeScript(null,{code:"$('.ball1').fadeOut();$('.mextension').show();"});  //T
+				  				//alert("sending resonse to contentScript from tokenize");
+				  				chrome.tabs.executeScript(tab_id,{code:"$('.ball1').fadeOut();$('.mextension').show();"});  //T
 				  				chrome.tabs.sendRequest(tab_id, {"tab_id":tab_id,"method":"tokenize","response": response}, function(response) {
-    										alert("resonse from contentScript in tokenize"+response.farewell);
+    										//alert("resonse from contentScript in tokenize"+response.farewell);
     										get_remaining_keyword_result();      										
     										//console.log(response.farewell);
     							});				
@@ -44,145 +44,21 @@
 															//test
 		function get_remaining_keyword_result()
 		{
-			/*
-			//get list of keyword
-			var keyword=new array();																			//test
-			for(var i=4;i<total_count;i++)								//passing keywords next to 4th keyword
-			{
-				keyword[i] = global_response.final_results[i].keyword;
-			}
-			*/
-				alert("runnign get json for remaining keyword");
+			
+				//alert("runnign get json for remaining keyword");
 				$.getJSON('http://127.0.0.1:5000/get_remaining', function(response) {
 							chrome.tabs.sendRequest(tab_id, {"method":"get_remaining","response": response}, function(response) {
-											alert("got remaining result in get remaining keyword function");
-    										//alert("resonse from contentScript in get_remaining_keyword"+response.farewell);
-    										//console.log(response.farewell);
+											//alert("got remaining result in get remaining keyword function");
+    										
     							});
-							/*global_response=response;
-							total_count=response.final_results.length;
-							total_count-=1;
-							*/
-							/*
-							for(var i=4;i<total_count;i++)					
-							{
-								global_response.final_result[i].search_res[i].Url=response.final_result[i].search_res[i].Url
-								global_response.final_result[i].search_res[i].Url=response.final_result[i].search_res[i].Url	
-							}
-							*/			  			
+										
 				});
 			
 		}	
-		/*	
-		function show_keyword(start,end){	
-			for(var i=start;i<=end && i<total_count;i++)
-			{
-				alert(i);
-				chrome.tabs.executeScript(tab_id,{code:"$('p#keyword"+(i%4+1)+"').text('"+global_response.final_results[i].keyword+"');"});			//W
-				print_res_of_kwd(i);
-				show_tweets(global_response.final_results[i].keyword);
-			}	
-			//if less than four keyword are displayed then fill other with blank	
-			if(end-start<3)
-			{
-				for(var i=end-start+1;i<=3;i++)
-				{
-					chrome.tabs.executeScript(tab_id,{code:"$('p#keyword"+(i+1)+"').empty();"});
-					chrome.tabs.executeScript(tab_id,{code:"$('div.popup_keyword"+(i+1)+"').empty();"});		
-				}
-			}
-		}	 
-		
-	 	function print_res_of_kwd(index)
-	 	{
-			var markup = "<ul>",clss;
-			for(i = 0; i<3 ; i++)
-			{	
-				//str = str.replace(/'/g,"");       //to replace quotes in string with blank string..working properly
-				markup += "<li><a href="+ global_response.final_results[index].search_res[i].Url+">"+global_response.final_results[index].search_res[i].Title.replace(/'/g,"")+"</a></li>";
-			}
-			markup += "</ul>"
-			//alert(markup);            
-			clss = "div.popup_keyword"+(index%4+1)
-			//chrome.tabs.executeScript(tab_id,{code:"$('"+clss+"').text('');"});		
-			chrome.tabs.executeScript(tab_id,{code:"$('"+clss+"').empty();"});		
-			chrome.tabs.executeScript(tab_id,{code:"$('"+clss+"').append('"+markup+"');"});
-			*/
-			/*		
-			if (global_response.final_results[index].film != "empty")
-			{
-				var video_url = global_response.final_results[index].film[0];
-				var pos = video_url.search("v=");
-				var video_substring = video_url.substring(pos+2,pos+2+11);
-		        alert(video_substring);					
-		    	var markup_video = '<object height="200" id="grelated-id-yt-player" type="application/x-shockwave-flash" width="200"><param name="movie"           value="http://www.youtube.com/v/'+video_substring+'?enablejsapi=1&amp;version=3&amp;hl=en_US&amp;rel=0"><param name="allowFullScreen" value="true"><param name="allowscriptaccess" value="always"><embed src="http://www.youtube.com/v/'+video_substring+'?enablejsapi=1&amp;version=3&amp;hl=en_US&amp;rel=0" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" height="200" width="200"></object>'
-			
-				chrome.tabs.executeScript(tab_id,{code:"$('"+clss+"').append('"+markup_video+"');"});		
-			}*/
-		//}
-		/*
-		function display_next_keyword(request)
-		{	
-			//keyword are displayed from count to total_count-1
-			alert("count=" + count);
-			if(request.button=="next")
-			{
-				if(flag==1)
-				{
-					//keyword are exhausted
-					alert("no more keyword...");
-				}
-				else
-				{
-					//keywords are yet to be displayed
-					if(total_count-count<6)
-					{
-						//less than four keyword are remaines...make flag=1
-						if(total_count-count==1)	
-						{
-							flag=1;
-							alert("no more keyword...");
-						}
-						else
-						{
-							show_keyword(count+1,total_count-1);
-							count = total_count-1;
-						}
-					}
-					else
-					{
-						//more than four keyword are remain
-						show_keyword(count+1,count+4)
-						count+=4;
-					}
-				}
-			}
-			else if(request.button=="prev")
-			{
-				//for prev button
-				if(count>3)
-				{
-					//more than 4 keyword are available
-					flag=0;
-					count-=count%4+1
-					show_keyword(count-3,count);
-				}
-				else
-				{
-					//total keyword are less than four
-					//show_keyword(0,count);
-				}			
-			}
-			else if(request.button=="tweets")
-			{
-				alert("showing tweets");
-			}
-	 	}
-	 	*/
 	 	function show_tweets(request)
 		{
 			var shtml = '';	
-			var kwd=request.keywords;
+			var kwd=request.keyword;
 			$.getJSON("http://search.twitter.com/search.json?&q=%23'"+kwd+"'&lang=en&rpp=2",function(jsonData)
 			{
 				var results = jsonData.results;
